@@ -17,6 +17,13 @@ base_url = "https://github.com/rossbar/numpy-tutorial-data-mirror/raw/main/"
 
 data_dir = 'temp/mnist/'
 
+def one_hot_encoding(labels, dimension=10):
+    # Define a one-hot variable for an all-zero vector
+    # with 10 dimensions (number labels from 0 to 9)
+    one_hot_labels = labels[..., None] == numpy.arange(dimension)[None]
+    # Return one-hot encoded labels
+    return one_hot_labels.astype(numpy.float64)
+
 if __name__ == '__main__':
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
@@ -76,3 +83,24 @@ if __name__ == '__main__':
 
     # Display the label of the 60,000th image (indexed at 59,999) from the training set.
     print('The label of the 60,000th train image: ' + str(y_train[59999]))
+
+    print('The data type of training images: {}'.format(x_train.dtype))
+    print('The data type of test images: {}'.format(x_test.dtype))
+
+    training_sample, test_sample = 60000, 10000
+    training_images = x_train[0:training_sample] / 255.0
+    test_images = x_test[0:test_sample] / 255.0
+
+    print('The data type of training images: {}'.format(training_images.dtype))
+    print('The data type of test images: {}'.format(test_images.dtype))
+
+    print('The data type of training labels: {}'.format(y_train.dtype))
+    print('The data type of test labels: {}'.format(y_test.dtype))
+
+    training_labels = one_hot_encoding(y_train[0:training_sample])
+    test_labels = one_hot_encoding(y_test[0:test_sample])
+
+    print('The data type of training labels: {}'.format(training_labels.dtype))
+    print('The data type of test labels: {}'.format(test_labels.dtype))
+
+    print('One-hot encoded label for the first training sample: ' + str(training_labels[0]))
