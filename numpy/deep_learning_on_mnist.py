@@ -24,6 +24,15 @@ def one_hot_encoding(labels, dimension=10):
     # Return one-hot encoded labels
     return one_hot_labels.astype(numpy.float64)
 
+# Define ReLU that returns the input if it's positive and 0 otherwise.
+def relu(x):
+    return (x >= 0) * x
+
+# Set up a derivative of the ReLU function that returns 1 for a positive input
+# and 0 otherwise.
+def relu2deriv(output):
+    return output >= 0
+
 if __name__ == '__main__':
     if not os.path.exists(data_dir):
         os.makedirs(data_dir)
@@ -104,3 +113,95 @@ if __name__ == '__main__':
     print('The data type of test labels: {}'.format(test_labels.dtype))
 
     print('One-hot encoded label for the first training sample: ' + str(training_labels[0]))
+
+    learning_rate = 0.005
+    epochs = 20
+    hidden_size = 100
+    pixels_per_images = 784
+    num_labels = 10
+
+    weights_1 = 0.2 * rng.random((pixels_per_images, hidden_size)) - 0.1
+    weights_2 = 0.2 * rng.random((hidden_size, num_labels)) - 0.1
+
+    # To store training and test set losses and accurate predictions
+    # for visualization.
+    store_training_loss = []
+    store_training_accurate_pred = []
+    store_test_loss = []
+    store_test_accurate_pred = []
+
+    # This is a training loop.
+    # Run the learning experiment for a defined number of epochs (iterations).
+    for epoch in range(epochs):
+        # Set the initial loss/error and the number of accurate predictions to zero.
+        training_loss = 0.0
+        training_accurate_predictions = 0
+
+        for i in range(len(training_images)):
+            # Forward propagation/forward pass:
+            # 1. The input layer: Initialize the training image data as inputs.
+            layer_0 = training_images[i]
+            # 2. The hidden layer:
+            #    Take in the training image data into the middle layer by
+            #    matrix-multiplying it by randomly initialized weights.
+            layer_1 = numpy.dot(layer_0, weights_1)
+            # 3. Pass the hidden layer's output through the ReLU activation function.
+            layer_1 = relu(layer_1)
+            # 4. Define the dropout function for regularization.
+            dropout_mask = rng.integers(low=0, high=2, size=layer_1.shape)
+            # 5. Apply dropout to the hidden layer's output.
+            layer_1 *= dropout_mask * 2
+            # 6. The output layer:
+            #    Ingest the output of the middle layer into the final layer
+            #    by matrix-multiplying it by randomly initialized weights.
+            layer_2 = numpy.dot(layer_1, weights_2)
+
+            # Backpropagation/backward pass:
+            # 1. Measure the training error (loss function) between the actual
+            #    image labels (the truth) and the prediction by the model.
+            training_loss += numpy.sum((training_labels[i] - layer_2) ** 2)
+            # 2. Increment the accurate prediction count.
+            training_accurate_predictions += int(
+                numpy.argmax(layer_2) == numpy.argmax(training_labels[i]))
+            # 3. Differentiate the loss function/error.
+            layer_2_delta = training_labels[i] - layer_2
+            # 4. Propagate the gradients of the loss function back through the hidden layer.
+            layer_1_delta = numpy.dot(weights_2, layer_2_delta) * relu2deriv(layer_1)
+            # 5. Apply the dropout to the gradients.
+            layer_1_delta *= dropout_mask
+            # 6. Update the weights for the middle and input layers
+            #    by multiplying them by the learning rate and the gradients.
+            weights_1 += learning_rate * numpy.outer(layer_0, layer_1_delta)
+            weights_2 += learning_rate * numpy.outer(layer_1, layer_2_delta)
+        
+        # Store training set losses and accurate predictions.
+        store_training_loss.append(training_loss)
+        store_training_accurate_pred.append(training_accurate_predictions)
+
+        # Evaluate model performance on the test set at each epoch.
+        #
+        # Unlike the training step, the weights are not modified for each image
+        # (or batch). Therefore the model can be applied to the test images in a
+        # vectorized manner, eliminating the need to loop over each image
+        # individually.
+
+        results = relu(test_images @ weights_1) @ weights_2
+
+        # Measure the error between the actual label (truth) and prediction values.
+        test_loss = numpy.sum((test_labels - results) ** 2)
+
+        # Measure prediction accurracy on test set.
+        test_accurate_predictions = numpy.sum(
+            numpy.argmax(results, axis=1) == numpy.argmax(test_labels, axis=1))
+        
+        # Store test set losses and accurate predictions.
+        store_test_loss.append(test_loss)
+        store_test_accurate_pred.append(test_accurate_predictions)
+
+        print((
+            f"Epoch: {epoch}\n"
+            f"  Training set error: {training_loss / len(training_images):.3f}\n"
+            f"  Training set accuracy: {training_accurate_predictions / len(training_images)}\n"
+            f"  Test set error: {test_loss / len(test_images):.3f}\n"
+            f"  Test set accuracy: {test_accurate_predictions / len(test_images)}"
+        ))
