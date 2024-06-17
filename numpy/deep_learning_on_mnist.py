@@ -1,4 +1,5 @@
 import gzip
+import matplotlib.pyplot
 import numpy
 import os
 import requests
@@ -10,8 +11,10 @@ data_sources = {
     'test_labels': 't10k-labels-idx1-ubyte.gz',         # 10,000 test labels
 }
 
+# If you encounter downloading problems, you can switch to a different URL.
 # base_url = 'http://yann.lecun.com/exdb/mnist/'
-base_url = "https://github.com/rossbar/numpy-tutorial-data-mirror/blob/main/"
+base_url = "https://github.com/rossbar/numpy-tutorial-data-mirror/raw/main/"
+
 data_dir = 'temp/mnist/'
 
 if __name__ == '__main__':
@@ -53,3 +56,23 @@ if __name__ == '__main__':
     
     print('The shape of test images: {} and test labels: {}'.format(
         x_test.shape, y_test.shape))
+
+    # Take the 60,000th image (indexed at 59,000) from the training set,
+    # reshape from (784,) to (28, 28) to have a valid shape for displaying purposes.
+    mnist_image = x_train[59999, :].reshape(28, 28)
+    # Set the color mapping to grayscale to have a black background.
+    matplotlib.pyplot.imshow(mnist_image, cmap='gray')
+    # Display the images.
+    matplotlib.pyplot.show()
+
+    # Display 5 random images from the training set.
+    num_examples = 5
+    rng = numpy.random.default_rng(seed=1)
+
+    fig, axes = matplotlib.pyplot.subplots(nrows=1, ncols=num_examples)
+    for sample, ax in zip(rng.choice(x_train, size=num_examples, replace=False), axes):
+        ax.imshow(sample.reshape(28, 28), cmap='gray')
+    matplotlib.pyplot.show()
+
+    # Display the label of the 60,000th image (indexed at 59,999) from the training set.
+    print('The label of the 60,000th train image: ' + str(y_train[59999]))
