@@ -3,3 +3,4 @@ matplotlib==3.9.0
 numpy==1.22.3
 requests==2.27.1
 tensorflow==2.16.1
+tensorflow-datasets
