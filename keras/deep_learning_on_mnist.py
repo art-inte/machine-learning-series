@@ -1,11 +1,10 @@
 import keras
 import numpy
-import tensorflow as tf
 
 epochs = 5
 
 if __name__ == '__main__':
-    print('Tensorflow version: ', tf.__version__)
+    print('Keras version: ', keras.__version__)
 
     (x_train, y_train), (x_test, y_test) = keras.datasets.mnist.load_data()
     x_train, x_test = x_train / 255.0, x_test / 255.0
