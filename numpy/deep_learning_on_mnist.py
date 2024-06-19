@@ -14,27 +14,11 @@ data_sources = {
 
 # If you encounter downloading problems, you can switch to a different URL.
 # base_url = 'http://yann.lecun.com/exdb/mnist/'
-base_url = "https://github.com/rossbar/numpy-tutorial-data-mirror/raw/main/"
+base_url = 'https://github.com/rossbar/numpy-tutorial-data-mirror/raw/main/'
 
 data_dir = 'temp/mnist/'
 
 epochs = 5
-
-def one_hot_encoding(labels, dimension=10):
-    # Define a one-hot variable for an all-zero vector
-    # with 10 dimensions (number labels from 0 to 9)
-    one_hot_labels = labels[..., None] == numpy.arange(dimension)[None]
-    # Return one-hot encoded labels
-    return one_hot_labels.astype(numpy.float64)
-
-# Define ReLU that returns the input if it's positive and 0 otherwise.
-def relu(x):
-    return (x >= 0) * x
-
-# Set up a derivative of the ReLU function that returns 1 for a positive input
-# and 0 otherwise.
-def relu2deriv(output):
-    return output >= 0
 
 if __name__ == '__main__':
     print('NumPy version:', numpy.__version__)
