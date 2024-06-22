@@ -31,23 +31,22 @@ class Neuron:
         total = numpy.dot(self.weights, input) + self.bias
         return sigmoid(total)
 
-class OurNeuralNework:
+class FakeNeuralNework:
     # A neural network with:
     #   - 2 inputs
     #   - a hidden layer with 2 neuron (h1, h2)
     #   - an output layer with 1 neuron (o1)
     # Each neuron has the same random weights and bias.
     def __init__(self):
-        numpy.random.seed(0)
-        weights = numpy.random.normal(size=2)
-        bias = numpy.random.normal(size=1)
+        weights = numpy.array([0.2, 0.2])
+        bias = numpy.array([0.4])
 
         # The Neuron class here is from the previous section.
         self.h1 = Neuron(weights, bias)
         self.h2 = Neuron(weights, bias)
         self.o1 = Neuron(weights, bias)
 
-    def feedforward(self, input):
+    def forward(self, input):
         out_h1 = self.h1.feedforward(input)
         out_h2 = self.h2.feedforward(input)
         # These inputs for o1 are the outputs of h1 and h2.
@@ -207,10 +206,15 @@ if __name__ == '__main__':
         data.append(numpy.array([row['Height'] / 1000.0, row['Weight'] / 1000.0]))
         y_trues.append(1 if row['Gender'] == 'male' else 0)
 
-    print('Version 1')
+    print('Version 0 cannot training, output: ', end='')
+    fake_network = FakeNeuralNework()
+    output = fake_network.forward(data[0])
+    print(output)
+
+    print('Version 1: ', end='')
     simple_network = SimpleNeuralNetwork()
     simple_network.train(data, y_trues)
 
-    print('Version 2')
+    print('Version 2: ', end='')
     dummy_network = DummyNeuralNetwork()
     dummy_network.train(data, y_trues)
