@@ -20,7 +20,48 @@ def mse_loss(y_true, y_pred):
     return ((y_true - y_pred) ** 2).mean()
 
 learn_rate = 0.01
-epochs = 5
+epochs = 10
+
+class Neuron:
+    def __init__(self, weights, bias):
+        self.weights = weights
+        self.bias = bias
+    
+    def feedforward(self, input):
+        total = numpy.dot(self.weights, input) + self.bias
+        return sigmoid(total)
+
+class OurNeuralNework:
+    # A neural network with:
+    #   - 2 inputs
+    #   - a hidden layer with 2 neuron (h1, h2)
+    #   - an output layer with 1 neuron (o1)
+    # Each neuron has the same random weights and bias.
+    def __init__(self):
+        numpy.random.seed(0)
+        weights = numpy.random.normal(size=2)
+        bias = numpy.random.normal(size=1)
+
+        # The Neuron class here is from the previous section.
+        self.h1 = Neuron(weights, bias)
+        self.h2 = Neuron(weights, bias)
+        self.o1 = Neuron(weights, bias)
+
+    def feedforward(self, input):
+        out_h1 = self.h1.feedforward(input)
+        out_h2 = self.h2.feedforward(input)
+        # These inputs for o1 are the outputs of h1 and h2.
+        out_o1 = self.o1.feedforward(numpy.array([out_h1, out_h2]))
+        return out_o1
+
+class Layer:
+    def __init__ (self, n_input, n_neuron):
+        numpy.random.seed(0)
+        self.weights = numpy.random.randn(n_input, n_neuron)
+        self.biases = numpy.random.randn(1, n_neuron)
+    
+    def forward(self, input):
+        return sigmoid(numpy.dot(input, self.weights) + self.biases)
 
 class SimpleNeuralNetwork:
     # A neural network with:
@@ -98,14 +139,78 @@ class SimpleNeuralNetwork:
             loss = mse_loss(labels, y_preds)
             print('Epoch %d loss: %.3f' % (epoch, loss))
 
+class DummyNeuralNetwork:
+    def __init__(self):
+        self.hidden_layer = Layer(2, 2)
+        self.output_layer = Layer(2, 1)
+
+    def forward(self, input):
+        out_hidden = self.hidden_layer.forward(input)
+        out_output = self.output_layer.forward(out_hidden)
+        return out_output
+
+    def train(self, data, labels):
+        for epoch in range(epochs):
+            for x, y_true in zip(data, labels):
+                # Do a feedforward.
+                sum_h1 = self.hidden_layer.weights[0, 0] * x[0] + self.hidden_layer.weights[0, 1] * x[1] + self.hidden_layer.biases[0, 0]
+                h1 = sigmoid(sum_h1)
+                sum_h2 = self.hidden_layer.weights[1, 0] * x[0] + self.hidden_layer.weights[1, 1] * x[1] + self.hidden_layer.biases[0, 1]
+                h2 = sigmoid(sum_h2)
+                sum_o1 = self.output_layer.weights[0, 0] * h1 + self.output_layer.weights[1, 0] * h2 + self.output_layer.biases[0, 0]
+                o1 = sigmoid(sum_o1)
+                ypred = o1
+
+                d_loss_d_ypred = -2 * (y_true - ypred)
+
+                # neuron o1
+                d_ypred_d_w5 = h1 * derivative_sigmoid(sum_o1)
+                d_ypred_d_w6 = h2 * derivative_sigmoid(sum_o1)
+                d_ypred_d_b3 = derivative_sigmoid(sum_o1)
+                d_ypred_d_h1 = self.output_layer.weights[0, 0] * derivative_sigmoid(sum_o1)
+                d_ypred_d_h2 = self.output_layer.weights[1, 0] * derivative_sigmoid(sum_o1)
+
+                # neuron h1
+                d_h1_d_w1 = x[0] * derivative_sigmoid(sum_h1)
+                d_h1_d_w2 = x[1] * derivative_sigmoid(sum_h1)
+                d_h1_d_b1 = derivative_sigmoid(sum_h1)
+
+                # neuron h2
+                d_h2_d_w3 = x[0] * derivative_sigmoid(sum_h2)
+                d_h2_d_w4 = x[1] * derivative_sigmoid(sum_h2)
+                d_h2_d_b2 = derivative_sigmoid(sum_h2)
+
+                # Update weights and biases.
+                self.hidden_layer.weights[0, 0] -= learn_rate * d_loss_d_ypred * d_ypred_d_h1 * d_h1_d_w1
+                self.hidden_layer.weights[0, 1] -= learn_rate * d_loss_d_ypred * d_ypred_d_h1 * d_h1_d_w2
+                self.hidden_layer.biases[0, 0] -= learn_rate * d_loss_d_ypred * d_ypred_d_h1 * d_h1_d_b1
+
+                self.hidden_layer.weights[1, 0] -= learn_rate * d_loss_d_ypred * d_ypred_d_h2 * d_h2_d_w3
+                self.hidden_layer.weights[1, 1] -= learn_rate * d_loss_d_ypred * d_ypred_d_h2 * d_h2_d_w4
+                self.hidden_layer.biases[0, 1] -= learn_rate * d_loss_d_ypred * d_ypred_d_h2 * d_h2_d_b2
+
+                self.output_layer.weights[0, 0] -= learn_rate * d_loss_d_ypred * d_ypred_d_w5
+                self.output_layer.weights[1, 0] -= learn_rate * d_loss_d_ypred * d_ypred_d_w6
+                self.output_layer.biases[0, 0] -= learn_rate * d_loss_d_ypred * d_ypred_d_b3
+
+            # Calcuate total loss at the end of each epoch.
+            y_preds = numpy.apply_along_axis(self.forward, 1, data)
+            loss = mse_loss(labels, y_preds)
+            print('Epoch %d loss: %.3f' % (epoch, loss))
+
 if __name__ == '__main__':
     gender_dataset = pandas.read_csv('res/gender_height_weight.csv')
 
     data = []
     y_trues = []
     for index, row in gender_dataset.iterrows():
-        data.append(numpy.array([row['Height'], row['Weight']]))
+        data.append(numpy.array([row['Height'] / 1000.0, row['Weight'] / 1000.0]))
         y_trues.append(1 if row['Gender'] == 'male' else 0)
 
-    network = SimpleNeuralNetwork()
-    network.train(data, y_trues)
+    print('Version 1')
+    simple_network = SimpleNeuralNetwork()
+    simple_network.train(data, y_trues)
+
+    print('Version 2')
+    dummy_network = DummyNeuralNetwork()
+    dummy_network.train(data, y_trues)
