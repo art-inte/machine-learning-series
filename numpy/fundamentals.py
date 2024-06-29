@@ -4,6 +4,7 @@ import matplotlib.pyplot as pyplot
 import numpy
 
 if __name__ == '__main__':
+    # 1. Array creation
     # Converting Python sequences to NumPy arrays.
     a1d = numpy.array([1, 2, 3, 4])
     a2d = numpy.array([[1, 2], [3, 4]])
@@ -56,3 +57,15 @@ if __name__ == '__main__':
     D = numpy.diag((-3, -4))
     E = numpy.block([[A, B], [C, D]])
     print(E)
+
+    # 2. Indexing on ndarrays.
+    x = numpy.arange(10)
+    print(x[2])
+    print(x[-2])
+
+    # now x is 2-dimensional
+    x.shape =(2, 5)
+    print(x[1, 3])
+    print(x[1, -1])
+    print(x[0])
+    print(x[0][2])
