@@ -15,6 +15,7 @@ if __name__ == '__main__':
     else:
         print('Failed to download file, status code:', response.status_code)
 
+    # 1. Use python wave module to decode wave file.
     with wave.open(os.path.join('temp', filename)) as wave_file:
         metadata = wave_file.getparams()
         print(metadata)
@@ -33,3 +34,7 @@ if __name__ == '__main__':
         pyplot.subplots_adjust(left=0.12, right=0.98, top=0.94, bottom=0.06)
         pyplot.savefig('image.png', dpi=300)
         pyplot.show()
+
+    # 2. Hard-code wave decoder.
+    with open(os.path.join('temp', filename)) as fp:
+        
