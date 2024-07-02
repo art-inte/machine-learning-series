@@ -24,3 +24,16 @@ if __name__ == '__main__':
         if status == 'active':
             active_users[user] = status
     print(active_users)
+
+    # range function
+    for i in range(5):
+        print(i, end=' ')
+    print()
+
+    print(list(range(0, 10, 3)))
+
+    a = ['Mary', 'had', 'a', 'little', 'lamb']
+    for i in range(len(a)):
+        print(i, a[i])
+
+    print(range(10))
