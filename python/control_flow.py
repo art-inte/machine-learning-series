@@ -11,11 +11,10 @@ if __name__ == '__main__':
     else:
         print('More')
 
-    # for statement
     # measure some strings
     words = ['cat', 'window', 'defenestrate']
     for w in words:
-        print(w, len(w))
+        print('Word', w, 'len is', len(w))
 
     # create a sample collection
     users = {'Hans': 'active', 'Éléonore': 'inactive', '景太郎': 'active'}
@@ -34,6 +33,30 @@ if __name__ == '__main__':
 
     a = ['Mary', 'had', 'a', 'little', 'lamb']
     for i in range(len(a)):
-        print(i, a[i])
+        if i < len(a) - 1:
+            print(i, a[i], end=', ')
+        else:
+            print(i, a[i])
 
-    print(range(10))
+    for i in range(10):
+        if i == 5:
+            break
+        print(i, end=' ')
+    print()
+
+    for i in range(10):
+        if i % 2 == 0:
+            continue
+        print(i, end=' ')
+    print()
+
+    status = int(input("Please enter a http error: "))
+    match status:
+        case 400:
+            print('Bad request')
+        case 404:
+            print('Not found')
+        case 418:
+            print("I'm a teapot")
+        case _:
+            print("Something's wrong with the internet")
