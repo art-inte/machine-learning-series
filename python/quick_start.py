@@ -1,4 +1,36 @@
 if __name__ == '__main__':
+    # integer
+    a = 10
+    b = 0o25
+    c = 0x1F
+    print(a, end=' ')
+    print(b, end=' ')
+    print(c, end=' ')
+    # float
+    d = 3.14
+    e = 5.67e-2
+    print(d, end=' ')
+    print(e, end=' ')
+    # complex
+    f = 3+4j
+    print(f)
+
+    g = int('123')
+    print(g, end=' ')
+    i = float(3.14)
+    print(i, end=' ')
+    j = complex(1, 3)
+    print(j)
+
+    # get type of common type
+    print(type(1))
+    print(type('Hello'))
+    print(type(True))
+    print(type([1, 2, 3]))
+    print(type((1, 2, 3)))
+    print(type({'a': 1, 'b': 2}))
+    print(type(set([1, 2, 3])))
+
     print("Hello, world!")
     print('Got your back')
     # use \' to escape the single quote
