@@ -39,10 +39,7 @@ if __name__ == '__main__':
 
     sample_group = numpy.array(sample_group)
     output = numpy.array(output)
-    model.fit(sample_group, output, epochs=10, callbacks=[weight_history])
-
-    # model.fit(sample_group1, numpy.zeros(num_samples_per_group), epochs=10, callbacks=[weight_history])
-    # model.fit(sample_group2, numpy.ones(num_samples_per_group), epochs=10, callbacks=[weight_history])
+    model.fit(sample_group, output, epochs=100, batch_size=10, callbacks=[weight_history])
 
     print(model.predict(numpy.array([[1, 2]])))
 
