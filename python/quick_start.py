@@ -81,7 +81,7 @@ if __name__ == '__main__':
 
     rgb = ['Red', 'Green', 'Blue']
     rgba = rgb
-    print(id(rgb) == id(rgba))
+    print('Is the address of two objects the same?', id(rgb) == id(rgba))
     rgba.append('Alph')
     print(rgb)
 
@@ -89,7 +89,6 @@ if __name__ == '__main__':
     correct_rgba[-1] = 'Alpha'
     print(correct_rgba)
     print(rgba)
-
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g']
     print(letters)
     letters[2:5] = ['C', 'D', 'E']  # replace some values
@@ -109,7 +108,7 @@ if __name__ == '__main__':
     # Fibonacci series:
     # the sum of two elements defines the next
     a, b = 0, 1
-    while a < 10:
+    while a < 1000:
         print(a, end=' ')
         a, b = b, a + b
     print()
