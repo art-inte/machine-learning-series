@@ -37,6 +37,7 @@ if __name__ == '__main__':
     print('doesn\'t')
     print("doesn't")
     print('First line.\nSecond line.')
+
     print(r'C:\some\name')
 
     print(3 * 'un' + 'ium')
@@ -46,25 +47,25 @@ if __name__ == '__main__':
     print(text)
 
     word = 'Python'
-    print(word[0])
-    print(word[5])
-    print(word[-1])
-    print(word[-2])
-    print(word[-6])
-    print(word[0:2])    # characters from the beginning to position 2 (excluded)
-    print(word[2:5])    # characters from position 2 (included) to 5 (excluded)
-    print(word[:2])     # characters from the beginning to position 2 (excluded)
-    print(word[4:])     # characters from position 4 (included) to the end
-    print(word[-2:])    # characters from the second-last (included) to the end
-    print(word[:2] + word[2:])
-    print(word[:4] + word[4:])
-    print(word[4:42])
-    print('J' + word[1:])
+    print(word[0], end=' ')
+    print(word[5], end=' ')
+    print(word[-1], end=' ')
+    print(word[-2], end=' ')
+    print(word[-6], end=' ')
+    print(word[0:2], end=' ')    # from the beginning to position 2 (excluded)
+    print(word[2:5], end=' ')    # from position 2 (included) to 5 (excluded)
+    print(word[:2], end=' ')     # from the beginning to position 2 (excluded)
+    print(word[4:], end=' ')     # from position 4 (included) to the end
+    print(word[-2:], end=' ')    # from the second-last (included) to the end
+    print(word[:2] + word[2:], end=' ')
+    print(word[:4] + word[4:], end=' ')
+    print(word[4:42], end=' ')
+    print('J' + word[1:], end=' ')
     print(word[:2] + 'py')
 
     squares = [1, 4, 9, 16, 25]
     print(squares)
-    print(squares[0])   # indexing returns a value
+    print(squares[0], end=' ')   # indexing returns a value
     print(squares[-1])
     print(squares[-3:]) # slicing returns a new list
     print(squares + [36, 49, 64, 81, 100])
