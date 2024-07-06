@@ -36,5 +36,5 @@ if __name__ == '__main__':
         pyplot.show()
 
     # 2. Hard-code wave decoder.
-    with open(os.path.join('temp', filename)) as fp:
-        
+    # with open(os.path.join('temp', filename)) as fp:
+  
