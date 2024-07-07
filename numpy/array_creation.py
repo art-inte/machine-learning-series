@@ -28,6 +28,7 @@ if __name__ == '__main__':
     pyplot.title('Plot of sin(x)')
     pyplot.savefig('temp/draw_sin_with_linspace.png', dpi=300)
     pyplot.show()
+    pyplot.clf()
 
     # 2D array creation functions
     print(numpy.eye(3, 5))
@@ -45,21 +46,18 @@ if __name__ == '__main__':
     # retain 3 decimal places
     print(numpy.round(default_rng.random((2, 5)), 3))
 
-    numpy.random.seed(42)
-    mean1 = [1, 2]
-    cov1 = [[1, 0.5], [0.5, 1]]
-    mean2 = [6, 4]
-    cov2 = [[2, 1], [1, 2]]
-    num_samples_per_group = 200
-    sample_group1 = numpy.random.multivariate_normal(mean1, cov1, num_samples_per_group)
-    sample_group2 = numpy.random.multivariate_normal(mean2, cov2, num_samples_per_group)
+    indices = numpy.indices((3, 3))
+    print(numpy.array_str(indices).replace('\n', ''))
+
+    # Generate a 2D grid of indices with shape (100, 100).
+    x, y = numpy.indices((100, 100))
+    distance = numpy.sqrt((x - 50)**2 + (y - 50)**2)
+    pyplot.imshow(distance, cmap='viridis')
+    pyplot.colorbar()
     pyplot.subplots_adjust(left=0.05, right=0.95, top=0.96, bottom=0.06)
-    pyplot.scatter(numpy.array(sample_group1)[:, 0],
-                   numpy.array(sample_group2)[:, 1], c='green', s=40)
-    pyplot.scatter(numpy.array(sample_group2)[:, 0],
-                   numpy.array(sample_group2)[:, 1], c='red', s=40)
-    pyplot.savefig('image.png', dpi=300)
+    pyplot.savefig('temp/colorbar_with_indices.png', dpi=300)
     pyplot.show()
+    pyplot.clf()
 
     a = numpy.array([1, 2, 3, 4, 5, 6])
     b = a[:2]
@@ -69,23 +67,11 @@ if __name__ == '__main__':
     a = numpy.array([1, 2, 3, 4, 5, 6])
     b = a[:2].copy()
     b += 1
-    print('a =', a, '; b=', b)
+    print('a =', a, 'b =', b)
 
-    A = numpy.ones((2, 2))
-    B = numpy.eye(2, 2)
-    C = numpy.zeros((2, 2))
-    D = numpy.diag((-3, -4))
-    E = numpy.block([[A, B], [C, D]])
-    print(E)
-
-    # 2. Indexing on ndarrays.
-    x = numpy.arange(10)
-    print(x[2])
-    print(x[-2])
-
-    # now x is 2-dimensional
-    x.shape =(2, 5)
-    print(x[1, 3])
-    print(x[1, -1])
-    print(x[0])
-    print(x[0][2])
+    c = numpy.ones((2, 2))
+    d = numpy.eye(2, 2)
+    e = numpy.zeros((2, 2))
+    f = numpy.diag((-3, -4))
+    g = numpy.block([[c, d], [e, f]])
+    print(g)
