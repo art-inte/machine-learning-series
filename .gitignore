@@ -2,6 +2,7 @@ temp/
 .idx/
 .vscode/
 .DS_Store
+media/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
