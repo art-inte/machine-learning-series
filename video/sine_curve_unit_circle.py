@@ -69,8 +69,6 @@ class SineCurveUnitCircle(manim.Scene):
 
         self.curve = manim.VGroup()
         self.curve.add(manim.Line(self.curve_start,self.curve_start))
-
-        self.curve.add(manim.Line(self.curve_start,self.curve_start))
         def get_curve():
             last_line = self.curve[-1]
             x = self.curve_start[0] + self.t_offset * 4
