@@ -1,6 +1,9 @@
 import manim
 import numpy
 
+# manim -pql -s -r 3840,2160 --fps 30 video/coordinate_transfer.py CoordinateTransfer
+# -s save last frame.
+
 class CoordinateTransfer(manim.Scene):
     def __init__(self, **kwargs):
         self.new_coordinate_group = manim.VGroup()
