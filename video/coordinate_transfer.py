@@ -9,6 +9,16 @@ class CoordinateTransfer(manim.Scene):
         self.new_coordinate_group = manim.VGroup()
         super().__init__(**kwargs)
 
+    def construct(self):
+        self.camera.background_color = manim.WHITE
+        self.camera.frame_center = numpy.array([4, 1.5, 0])
+
+        self.show_axis()
+        self.draw_blue_points()
+        self.draw_red_points()
+        self.rotate_shift_axis()
+        self.shift_rotate_new_coordinate()
+
     def show_axis(self):
         x_start = numpy.array([-1, 0, 0])
         x_end = numpy.array([3, 0, 0])
@@ -20,7 +30,6 @@ class CoordinateTransfer(manim.Scene):
         y_axis = manim.Line(y_start, y_end, color=manim.GRAY)
 
         self.add(x_axis, y_axis)
-        pass
     
     def draw_blue_points(self):
         blue_points = [
@@ -108,13 +117,3 @@ class CoordinateTransfer(manim.Scene):
             run_time=3)
 
         self.wait(2)
-
-    def construct(self):
-        self.camera.background_color = manim.WHITE
-        self.camera.frame_center = numpy.array([4, 1.5, 0])
-
-        self.show_axis()
-        self.draw_blue_points()
-        self.draw_red_points()
-        self.rotate_shift_axis()
-        self.shift_rotate_new_coordinate()
