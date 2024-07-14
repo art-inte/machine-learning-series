@@ -1,7 +1,7 @@
 import manim
 import numpy
 
-# manim -pql -s -r 3840,2160 --fps 30 video/coordinate_transfer.py CoordinateTransfer
+# manim -pql -r 3840,2160 --fps 30 dp/01/coordinate_transfer.py CoordinateTransfer
 # -s save last frame.
 
 class CoordinateTransfer(manim.Scene):
