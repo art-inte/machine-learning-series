@@ -106,5 +106,30 @@ if __name__ == '__main__':
     pyplot.show()
     pyplot.close('all')
 
+    layers_name = ['dense', 'dense_1', 'dense_2', 'dense_3']
+
+    for name in layers_name:
+        layer = model.get_layer(name=name)
+        pyplot.figure(figsize=(10, 4))
+        weights, biases = layer.get_weights()
+        print(weights.shape)
+        n_column = 12
+        n_row = int(numpy.ceil(weights.shape[1] / n_column))
+        for i in range(weights.shape[1]):
+            ax = pyplot.subplot(n_row, n_column, i+1)
+            sqrt_n = numpy.sqrt(len(weights[:, i])).astype(int)
+            factor1 = 1
+            factor2 = 1
+            for i in range(sqrt_n, 0, -1):
+                if len(weights[:, i]) % i == 0:
+                    factor1 = i
+                    factor2 = len(weights[:, i]) // i
+                    break
+            weight_image = weights[:, i].reshape(factor1, factor2)
+            pyplot.imshow(weight_image, cmap='gray')
+            pyplot.axis('off')
+        pyplot.show()
+        pyplot.close('all')
+
     predictions = numpy.argmax(model.predict(x_test[:5]), axis=1)
     print("Predictions: " + str(predictions), ", Labels: " + str(y_test[:5]))
