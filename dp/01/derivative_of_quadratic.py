@@ -14,11 +14,10 @@ if __name__ == '__main__':
     fig, ax = pyplot.subplots()
     ax.set_xlim(-10, 10)
     ax.set_ylim(-5, 100)
-    line1, = ax.plot(x, quandratic(x), label='f(x) = x^2')
+    ax.plot(x, quandratic(x), label='f(x) = x^2')
+    ax.plot(numpy.zeros((400,)), numpy.linspace(-5, 1000, 400))
     tangent_line, = ax.plot([], [], label='Tangent line', color='red')
     point, = ax.plot([], [], 'ro')
-
-
 
     def init():
         tangent_line.set_data([], [])
@@ -36,4 +35,5 @@ if __name__ == '__main__':
         return tangent_line, point
 
     ani = animation.FuncAnimation(fig, update, frames=len(x), init_func=init, blit=True)
+    pyplot.legend()
     pyplot.show()
