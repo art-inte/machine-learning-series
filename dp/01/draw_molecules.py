@@ -21,8 +21,8 @@ if __name__ == '__main__':
     font = PIL.ImageFont.load_default().font_variant(size=48)
     draw.text((600, 0), rdkit.Chem.MolToMolBlock(m), fill=(0, 0, 0), font=font)
 
-    draw.rectangle([1850, 400, 1900, 440], fill='cyan')
-    draw.polygon([(1880, 360), (1920, 420), (1880, 480)], fill='cyan')
+    draw.rectangle([1850, 400, 1950, 440], fill='cyan')
+    draw.polygon([(1920, 360), (1960, 420), (1920, 480)], fill='cyan')
 
     draw.rectangle([2000, 100, 2400, 800], outline='black', width=3)
     graph = networkx.DiGraph()

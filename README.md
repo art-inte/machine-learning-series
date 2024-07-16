@@ -14,4 +14,4 @@ The series (Google Docs) is available in Chinese, the shorter version of [***Fun
 * [Calculus Volume 1](https://openstax.org/details/books/calculus-volume-1)
 * [Introduction to Linear Algebra](https://math.mit.edu/~gs/linearalgebra/ila6/indexila6.html)
 
-The code (include video generation script) strives to be easy to understand and practical, it is placed in the directory marked with the chapter number. If you are interested, you can follow [my YouTube channel](https://www.youtube.com/channel/UCqMyNL7XHjD938WwkGUgqNg).
+The code (include video generation script) strives to be easy to understand and practical, it is placed in the directory marked with the chapter number. There are many images and animations show how machine learning works. If you are interested, you can follow [my YouTube channel](https://www.youtube.com/channel/UCqMyNL7XHjD938WwkGUgqNg) to watch videos.
