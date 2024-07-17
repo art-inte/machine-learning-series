@@ -1,6 +1,5 @@
 import keras
 import matplotlib.pyplot as pyplot
-import networkx
 import numpy
 
 def get_img_array(img_path, target_size):
@@ -29,9 +28,10 @@ if __name__ == '__main__':
 
     pyplot.axis('off')
     pyplot.imshow(img_tensor[0].astype('uint8'))
-    pyplot.pyplot.subplots_adjust(left=0, right=0, top=0, bottom=0)
+    pyplot.subplots_adjust(left=0, right=1.0, top=0.95, bottom=0.05)
     pyplot.savefig('temp/cat.jpg', dpi=300)
     pyplot.show()
+    pyplot.close('all')
 
     layer_outputs = []
     layer_names = []
@@ -45,7 +45,7 @@ if __name__ == '__main__':
     first_layer_activation = activations[0]
     print(first_layer_activation.shape)
     pyplot.matshow(first_layer_activation[0, :, :, 5], cmap='viridis')
-    pyplot.pyplot.subplots_adjust(left=0, right=0, top=0, bottom=0)
+    pyplot.subplots_adjust(left=0, right=1.0, top=1.0, bottom=0)
     pyplot.savefig('temp/first_layer_activation.png', dpi=300)
     pyplot.show()
     pyplot.close('all')
@@ -74,9 +74,10 @@ if __name__ == '__main__':
         scale = 1. / size
         pyplot.figure(figsize=(scale * display_grid.shape[1],
                                scale * display_grid.shape[0]))
-        pyplot.title(layer_name)
+        pyplot.title(layer_name, size=24)
         pyplot.grid(False)
         pyplot.axis('off')
+        pyplot.subplots_adjust(left=0.02, right=0.98, top=0.9, bottom=0.1)
         pyplot.imshow(display_grid, aspect='auto', cmap='viridis')
         pyplot.savefig('temp/' + layer_name + '.png', dpi=72)
         # pyplot.show()
