@@ -102,7 +102,7 @@ if __name__ == '__main__':
     predict_labels = {f'L{len(layer_units)-1}_{j}': predictions[0][j] for j in range(layer_units[-1])}
     predict_pos = {f'L{len(layer_units)-1}_{j}': (x[j], y[j] * scale) for j in range(size)}
     networkx.draw_networkx_labels(graph, predict_pos, predict_labels, font_size=12, ax=ax)
-    pyplot.savefig('temp/mnist_dnn_graph.png', dpi=300)
+    pyplot.savefig('temp/mnist_dnn_graph.jpeg', dpi=150)
     pyplot.show()
     pyplot.close('all')
 
