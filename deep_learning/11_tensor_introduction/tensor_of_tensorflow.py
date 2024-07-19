@@ -1,4 +1,4 @@
-import matplotlib.pyplot as pyplot
+import numpy
 import tensorflow
 
 
@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     # There can be an arbitrary number of
     # axes (sometimes called "dimensions")
-    rank_3_tensor = tf.constant([
+    rank_3_tensor = tensorflow.constant([
         [[0, 1, 2, 3, 4],
         [5, 6, 7, 8, 9]],
         [[10, 11, 12, 13, 14],
@@ -24,9 +24,15 @@ if __name__ == '__main__':
         [25, 26, 27, 28, 29]],
     ])
 
-    ax = pyplot.axes(projection='3d')
-    for i in range(rank_3_tensor.shape[0]):
-        for j in range(rank_3_tensor.shape[1]):
-            for k in range(rank_3_tensor.shape[2]):
-                ax.scatter3D(i, j, k)
-    pyplot.show()
+    print(numpy.array(rank_2_tensor))
+    print(rank_2_tensor.numpy())
+
+    a = tensorflow.constant([[1, 2], [3, 4]])
+    b = tensorflow.constant([[1, 1], [1, 1]])
+    print(tensorflow.add(a, b))
+    print(tensorflow.multiply(a, b))
+    print(tensorflow.matmul(a, b))
+
+    print(a + b)
+    print(a * b)
+    print(a @ b)
