@@ -36,3 +36,15 @@ if __name__ == '__main__':
     print(a + b)
     print(a * b)
     print(a @ b)
+
+    c = tensorflow.constant([[4.0, 5.0], [10.0, 1.0]])
+    # Find the largest value.
+    print(tensorflow.reduce_max(c))
+    # Find the index of the largest value.
+    print(tensorflow.math.argmax(c))
+    # Compute the softmax
+    print(tensorflow.nn.softmax(c))
+
+    tensorflow.convert_to_tensor([1, 2, 3])
+    tensorflow.reduce_max([1, 2, 3])
+    tensorflow.reduce_max(numpy.array([1, 2, 3]))  
