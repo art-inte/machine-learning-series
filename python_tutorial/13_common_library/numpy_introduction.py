@@ -46,3 +46,18 @@ if __name__ == '__main__':
     e = numpy.array([[1, 2], [3, 4]])
     f = numpy.array([[5, 6]])
     print(numpy.concatenate((e, f), axis=0))
+
+    g = numpy.array([1, 2, 3, 4, 5, 6])
+    h = g[numpy.newaxis, :]
+    i = g[:, numpy.newaxis]
+    print('Shape', h.shape)
+    print('Shape', i.shape)
+
+    j = numpy.expand_dims(g, axis=1)
+    k = numpy.expand_dims(g, axis=0)
+    print('Shape', j.shape)
+    print('Shape', k.shape)
+
+    l = numpy.array([1, 2, 3])
+    print('[0 - 2)', l[0:2])
+
