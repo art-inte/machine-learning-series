@@ -3,6 +3,8 @@ temp/
 .vscode/
 .DS_Store
 media/
+a.out
+data/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
