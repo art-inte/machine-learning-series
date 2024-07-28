@@ -59,4 +59,4 @@ if __name__ == '__main__':
     score = model.evaluate(x_test, y_test, verbose=0)
 
     predictions = model.predict(x_test)
-    print(predictions)
+    print(predictions[0])
