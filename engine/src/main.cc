@@ -13,13 +13,16 @@ constexpr int DURATION = 10;
 constexpr int BIT_RATE = 256000;
 constexpr int SAMPLE_RATE = 48000;
 
-static void LogPacket(const AVFormatContext* format_context, const AVPacket* packet) {
-    AVRational* time_base = &format_context->streams[packet->stream_index]->time_base;
-
-}
+// static void LogPacket(const AVFormatContext* format_context, const AVPacket* packet) {
+//     AVRational* time_base = &format_context->streams[packet->stream_index]->time_base;
+//
+// }
 
 static bool WriteFrame(AVFormatContext* format_context, AVCodecContext* codec_context,
                        const AVStream* stream, const AVFrame* frame, AVPacket* packet) {
+    if (packet == nullptr) {
+        return false;
+    }
     // Send the frame to the encoder.
     int ret = avcodec_send_frame(codec_context, frame);
     if (ret < 0) {
@@ -85,9 +88,41 @@ static bool WriteVideoFrame(AVFormatContext* format_context, AVCodecContext* cod
     return WriteFrame(format_context, codec_context, stream, frame, packet);
 }
 
-static void CloseStream(AVPacket* video_packet, AVFrame* video_frame) {
+static AVFrame* GetAudioFrame(const AVCodecContext* codec_context, AVFrame* frame, int64_t& next_pts) {
+    if (frame == nullptr) {
+        return nullptr;
+    }
+    if (av_compare_ts(next_pts, codec_context->time_base, DURATION, {1, 1}) > 0) {
+        return nullptr;
+    }
+
+    for (int j = 0; j < frame->nb_samples; j++) {
+        for (int i = 0; i < codec_context->ch_layout.nb_channels; i++) {
+            // TODO: audio samples
+        }
+    }
+
+    frame->pts = next_pts;
+    next_pts += frame->nb_samples;
+    return frame;
+}
+
+// Encode one audio frame and send it to the muxer.
+// Return 1 when encoding is finished, 0 otherwise.
+static bool WriteAudioFrame(AVFormatContext* format_context, AVCodecContext* codec_context,
+                            const AVStream* stream, AVPacket* packet, AVFrame* frame, int64_t& next_pts) {
+    frame = GetAudioFrame(codec_context, frame, next_pts);
+    return WriteFrame(format_context, codec_context, stream, frame, packet);
+}
+
+static void CloseVideoStream(AVPacket* video_packet, AVFrame* video_frame) {
     av_packet_free(&video_packet);
     av_frame_free(&video_frame);
+}
+
+static void CloseAudioStream(AVPacket* audio_packet, AVFrame* audio_frame) {
+    av_packet_free(&audio_packet);
+    av_frame_free(&audio_frame);
 }
 
 int main(const int argc, char* argv[]) {
@@ -107,6 +142,9 @@ int main(const int argc, char* argv[]) {
     AVCodecContext* audio_codec_context = nullptr;
     const AVCodec* audio_codec = nullptr;
     AVStream* audio_stream = nullptr;
+    AVPacket* audio_packet = nullptr;
+    AVFrame* audio_frame = nullptr;
+    int64_t next_audio_pts = 0;
     bool have_audio = false;
     bool encode_audio = false;
 
@@ -173,18 +211,15 @@ int main(const int argc, char* argv[]) {
     if (output_format_context->oformat->audio_codec != AV_CODEC_ID_NONE) {
         audio_stream = avformat_new_stream(output_format_context, nullptr);
         if (!audio_stream) {
-            CloseStream(video_packet, video_frame);
             return EXIT_FAILURE;
         }
         audio_stream->id = static_cast<int>(output_format_context->nb_streams) - 1;
         audio_codec = avcodec_find_encoder(output_format_context->oformat->audio_codec);
         if (!audio_codec) {
-            CloseStream(video_packet, video_frame);
             return EXIT_FAILURE;
         }
         audio_codec_context = avcodec_alloc_context3(audio_codec);
         if (!audio_codec_context) {
-            CloseStream(video_packet, video_frame);
             return EXIT_FAILURE;
         }
         audio_codec_context->sample_fmt = audio_codec->sample_fmts ?
@@ -203,6 +238,24 @@ int main(const int argc, char* argv[]) {
         audio_stream->time_base = {1, audio_codec_context->sample_rate };
         if (output_format_context->oformat->flags & AVFMT_GLOBALHEADER) {
             audio_codec_context->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+        }
+        audio_packet = av_packet_alloc();
+        if (!audio_packet) {
+            av_packet_free(&audio_packet);
+            return EXIT_FAILURE;
+        }
+        audio_frame = av_frame_alloc();
+        if (!audio_frame) {
+            av_frame_free(&audio_frame);
+            return EXIT_FAILURE;
+        }
+        audio_frame->format = audio_codec_context->sample_fmt;
+        audio_frame->ch_layout = audio_codec_context->ch_layout;
+        audio_frame->sample_rate = audio_codec_context->sample_rate;
+        audio_frame->nb_samples = 1024;
+        if (av_frame_get_buffer(audio_frame, 0) < 0) {
+            av_log(nullptr, AV_LOG_ERROR, "Error allocating an audio buffer\n");
+            return EXIT_FAILURE;
         }
         have_audio = true;
         encode_audio = true;
@@ -239,14 +292,25 @@ int main(const int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
 
-    while (next_video_pts < FRAME_RATE * DURATION) {
-        WriteVideoFrame(output_format_context, video_codec_context, video_stream,
-            video_packet, video_frame, next_video_pts);
+    while (encode_video || encode_audio) {
+        if (video_codec_context == nullptr || audio_codec_context == nullptr) {
+            return EXIT_FAILURE;
+        }
+        if (encode_video &&
+            (!encode_audio || av_compare_ts(next_video_pts, video_codec_context->time_base,
+                next_audio_pts, audio_codec_context->time_base) <= 0)) {
+            encode_video = !WriteVideoFrame(output_format_context, video_codec_context, video_stream,
+                video_packet, video_frame, next_video_pts);
+        } else {
+            encode_audio = !WriteAudioFrame(output_format_context, audio_codec_context, audio_stream,
+                audio_packet, audio_frame, next_audio_pts);
+        }
     }
 
     av_write_trailer(output_format_context);
 
-    CloseStream(video_packet, video_frame);
+    CloseVideoStream(video_packet, video_frame);
+    CloseAudioStream(audio_packet, audio_frame);
 
     return EXIT_SUCCESS;
 }
