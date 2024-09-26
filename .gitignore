@@ -1,4 +1,5 @@
 engine/.idea/
+engine/output.mp4
 engine/CMakeUserPresets.json
 engine/cmake-build-debug/
 engine/cmake-build-release/

@@ -3,6 +3,8 @@
 extern "C" {
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
+#include <libswresample/swresample.h>
+#include <libavutil/timestamp.h>
 }
 
 constexpr int WIDTH = 3840;
@@ -12,11 +14,6 @@ constexpr AVPixelFormat PIXEL_FORMAT = AV_PIX_FMT_YUV420P;
 constexpr int DURATION = 10;
 constexpr int BIT_RATE = 256000;
 constexpr int SAMPLE_RATE = 48000;
-
-// static void LogPacket(const AVFormatContext* format_context, const AVPacket* packet) {
-//     AVRational* time_base = &format_context->streams[packet->stream_index]->time_base;
-//
-// }
 
 static bool WriteFrame(AVFormatContext* format_context, AVCodecContext* codec_context,
                        const AVStream* stream, const AVFrame* frame, AVPacket* packet) {
@@ -40,6 +37,11 @@ static bool WriteFrame(AVFormatContext* format_context, AVCodecContext* codec_co
         }
         av_packet_rescale_ts(packet, codec_context->time_base, stream->time_base);
         packet->stream_index = stream->index;
+        AVRational* time_base = &format_context->streams[packet->stream_index]->time_base;
+        av_log(nullptr, AV_LOG_INFO, "pts: %s pts_time: %s duration: %s duration_time: %s stream_index:%d\n",
+               av_ts2str(packet->pts), av_ts2timestr(packet->pts, time_base),
+               av_ts2str(packet->duration), av_ts2timestr(packet->duration, time_base),
+               packet->stream_index);
         ret = av_interleaved_write_frame(format_context, packet);
         if (ret < 0) {
             return false;
@@ -88,41 +90,56 @@ static bool WriteVideoFrame(AVFormatContext* format_context, AVCodecContext* cod
     return WriteFrame(format_context, codec_context, stream, frame, packet);
 }
 
-static AVFrame* GetAudioFrame(const AVCodecContext* codec_context, AVFrame* frame, int64_t& next_pts) {
-    if (frame == nullptr) {
+static AVFrame* GetAudioFrame(const AVCodecContext* codec_context, AVFrame* temp_frame,
+                              int64_t& next_pts, float& t, float& cr, float& cr2) {
+    if (temp_frame == nullptr) {
         return nullptr;
     }
+    auto* q = (int16_t*) temp_frame->data[0];
+
     if (av_compare_ts(next_pts, codec_context->time_base, DURATION, {1, 1}) > 0) {
         return nullptr;
     }
 
-    for (int j = 0; j < frame->nb_samples; j++) {
+    for (int j = 0; j < temp_frame->nb_samples; j++) {
+        auto v = (int16_t)(sinf(t) * 10000);
         for (int i = 0; i < codec_context->ch_layout.nb_channels; i++) {
-            // TODO: audio samples
+            *q++ = v;
         }
+        t += cr;
+        cr += cr2;
     }
 
-    frame->pts = next_pts;
-    next_pts += frame->nb_samples;
-    return frame;
+    temp_frame->pts = next_pts;
+    next_pts += temp_frame->nb_samples;
+    return temp_frame;
 }
 
 // Encode one audio frame and send it to the muxer.
-// Return 1 when encoding is finished, 0 otherwise.
+// Return true when encoding is finished, false otherwise.
 static bool WriteAudioFrame(AVFormatContext* format_context, AVCodecContext* codec_context,
-                            const AVStream* stream, AVPacket* packet, AVFrame* frame, int64_t& next_pts) {
-    frame = GetAudioFrame(codec_context, frame, next_pts);
+                            SwrContext* swr_context, const AVStream* stream, AVPacket* packet,
+                            AVFrame* frame, AVFrame* temp_frame,
+                            int64_t& next_pts, int64_t& sample_count, float& t, float& cr, float& cr2) {
+    if (frame == nullptr) {
+        return false;
+    }
+    temp_frame = GetAudioFrame(codec_context, temp_frame, next_pts, t, cr, cr2);
+    if (temp_frame) {
+        auto dst_nb_samples = swr_get_delay(swr_context, codec_context->sample_rate) + temp_frame->nb_samples;
+        if (av_frame_make_writable(temp_frame)) {
+            return false;
+        }
+        if (swr_convert(swr_context, frame->data, int(dst_nb_samples),
+                        (const uint8_t**) temp_frame->data, frame->nb_samples) < 0) {
+            return false;
+        }
+        frame->pts = av_rescale_q(sample_count, {1, codec_context->sample_rate}, codec_context->time_base);
+        sample_count += dst_nb_samples;
+    } else {
+        return true;
+    }
     return WriteFrame(format_context, codec_context, stream, frame, packet);
-}
-
-static void CloseVideoStream(AVPacket* video_packet, AVFrame* video_frame) {
-    av_packet_free(&video_packet);
-    av_frame_free(&video_frame);
-}
-
-static void CloseAudioStream(AVPacket* audio_packet, AVFrame* audio_frame) {
-    av_packet_free(&audio_packet);
-    av_frame_free(&audio_frame);
 }
 
 int main(const int argc, char* argv[]) {
@@ -141,10 +158,14 @@ int main(const int argc, char* argv[]) {
     bool encode_video = false;
     AVCodecContext* audio_codec_context = nullptr;
     const AVCodec* audio_codec = nullptr;
+    SwrContext* swr_context = nullptr;
     AVStream* audio_stream = nullptr;
     AVPacket* audio_packet = nullptr;
     AVFrame* audio_frame = nullptr;
+    AVFrame* audio_temp_frame = nullptr;
     int64_t next_audio_pts = 0;
+    int64_t sample_count = 0;
+    float t = 0, cr, cr2;
     bool have_audio = false;
     bool encode_audio = false;
 
@@ -235,9 +256,24 @@ int main(const int argc, char* argv[]) {
             }
         }
         audio_codec_context->ch_layout = AV_CHANNEL_LAYOUT_STEREO;
-        audio_stream->time_base = {1, audio_codec_context->sample_rate };
+        audio_stream->time_base = { 1, audio_codec_context->sample_rate };
         if (output_format_context->oformat->flags & AVFMT_GLOBALHEADER) {
             audio_codec_context->flags |= AV_CODEC_FLAG_GLOBAL_HEADER;
+        }
+        if (swr_alloc_set_opts2(&swr_context,
+                            &audio_codec_context->ch_layout,
+                            audio_codec_context->sample_fmt,
+                            audio_codec_context->sample_rate,
+                            &audio_codec_context->ch_layout,
+                            AV_SAMPLE_FMT_S16,
+                            audio_codec_context->sample_rate,
+                            0,
+                            nullptr) < 0) {
+            return EXIT_FAILURE;
+        }
+        if (swr_init(swr_context) < 0) {
+            swr_free(&swr_context);
+            return EXIT_FAILURE;
         }
         audio_packet = av_packet_alloc();
         if (!audio_packet) {
@@ -257,6 +293,20 @@ int main(const int argc, char* argv[]) {
             av_log(nullptr, AV_LOG_ERROR, "Error allocating an audio buffer\n");
             return EXIT_FAILURE;
         }
+        audio_temp_frame = av_frame_alloc();
+        if (!audio_temp_frame) {
+            av_frame_free(&audio_temp_frame);
+            return EXIT_FAILURE;
+        }
+        audio_temp_frame->format = AV_SAMPLE_FMT_S16;
+        audio_temp_frame->ch_layout = audio_codec_context->ch_layout;
+        audio_temp_frame->sample_rate = audio_codec_context->sample_rate;
+        audio_temp_frame->nb_samples = 1024;
+        if (av_frame_get_buffer(audio_temp_frame, 0) < 0) {
+            return EXIT_FAILURE;
+        }
+        cr = float(2 * M_PI * 110.0 / audio_codec_context->sample_rate);
+        cr2 = float(2 * M_PI * 110.0 / audio_codec_context->sample_rate / audio_codec_context->sample_rate);
         have_audio = true;
         encode_audio = true;
     }
@@ -302,15 +352,27 @@ int main(const int argc, char* argv[]) {
             encode_video = !WriteVideoFrame(output_format_context, video_codec_context, video_stream,
                 video_packet, video_frame, next_video_pts);
         } else {
-            encode_audio = !WriteAudioFrame(output_format_context, audio_codec_context, audio_stream,
-                audio_packet, audio_frame, next_audio_pts);
+            encode_audio = !WriteAudioFrame(output_format_context, audio_codec_context,
+                                            swr_context, audio_stream,
+                audio_packet, audio_frame, audio_temp_frame, next_audio_pts, sample_count, t, cr, cr2);
         }
     }
-
     av_write_trailer(output_format_context);
-
-    CloseVideoStream(video_packet, video_frame);
-    CloseAudioStream(audio_packet, audio_frame);
-
+    if (have_video) {
+        avcodec_free_context(&video_codec_context);
+        av_packet_free(&video_packet);
+        av_frame_free(&video_frame);
+    }
+    if (have_audio) {
+        avcodec_free_context(&audio_codec_context);
+        swr_free(&swr_context);
+        av_packet_free(&audio_packet);
+        av_frame_free(&audio_frame);
+        av_frame_free(&audio_temp_frame);
+    }
+    if (!(output_format_context->oformat->flags & AVFMT_NOFILE)) {
+        avio_closep(&output_format_context->pb);
+    }
+    avformat_free_context(output_format_context);
     return EXIT_SUCCESS;
 }
