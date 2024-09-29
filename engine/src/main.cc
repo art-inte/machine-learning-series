@@ -6,6 +6,8 @@ extern "C" {
 #include <libswresample/swresample.h>
 #include <libavutil/timestamp.h>
 }
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
 
 constexpr int WIDTH = 3840;
 constexpr int HEIGHT = 2160;
@@ -50,8 +52,8 @@ static bool WriteFrame(AVFormatContext* format_context, AVCodecContext* codec_co
     return ret == AVERROR_EOF;
 }
 
-static AVFrame* GetVideoFrame(const AVCodecContext* codec_context,
-                              AVFrame* frame, int64_t& next_pts) {
+static AVFrame* GetVideoFrameTest(const AVCodecContext* codec_context,
+                                  AVFrame* frame, int64_t& next_pts) {
     if (frame == nullptr) {
         return nullptr;
     }
@@ -82,11 +84,50 @@ static AVFrame* GetVideoFrame(const AVCodecContext* codec_context,
     return frame;
 }
 
+static AVFrame* GetVideoFrameFromImage(const char* image_file_path,
+                                       const AVCodecContext* codec_context,
+                                       AVFrame* frame,
+                                       int64_t& next_pts) {
+    if (frame == nullptr) {
+        return nullptr;
+    }
+    // Check if we want to generate more frames.
+    if (av_compare_ts(next_pts, codec_context->time_base, DURATION,  {1, 1}) > 0) {
+        return nullptr;
+    }
+    if (av_frame_make_writable(frame) < 0) {
+        return nullptr;
+    }
+    int width, height, channels;
+    auto* image_data = stbi_load(image_file_path, &width, &height, &channels, 0);
+    av_log(nullptr, AV_LOG_INFO,"Channel %d\n", channels);
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int index = y * width + x;
+            int r = image_data[index * channels];
+            int g = image_data[index * channels + 1];
+            int b = image_data[index * channels + 2];
+            frame->data[0][y * frame->linesize[0] + x] = (unsigned char) (0.299 * r + 0.587 * g + 0.114 * b);
+            if (x % 2 == 0 && y % 2 == 0) {
+                frame->data[1][y / 2 * frame->linesize[1] + x / 2] =
+                        (unsigned char) (-0.147 * r - 0.289* g + 0.436 * b + 128);
+                frame->data[2][y / 2  * frame->linesize[2] + x / 2] =
+                        (unsigned char) (0.615 * r - 0.515 * g - 0.100 * b + 128);
+            }
+        }
+    }
+    frame->pts = next_pts++;
+    stbi_image_free(image_data);
+    return frame;
+}
+
 // Encode one video frame and send it to the muxer.
 // return true when encoding is finished, false otherwise.
 static bool WriteVideoFrame(AVFormatContext* format_context, AVCodecContext* codec_context,
                             const AVStream* stream, AVPacket* packet, AVFrame* frame, int64_t& next_pts) {
-    frame = GetVideoFrame(codec_context, frame, next_pts);
+    // frame = GetVideoFrameTest(codec_context, frame, next_pts);
+    frame = GetVideoFrameFromImage("/Users/admin/Desktop/flower.jpeg",
+                                   codec_context, frame, next_pts);
     return WriteFrame(format_context, codec_context, stream, frame, packet);
 }
 
