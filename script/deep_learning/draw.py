@@ -36,12 +36,25 @@ def code(axis, code, index):
               fontproperties=noto_sans_sc['Light'], fontsize=CONTENT_FONT_SIZE,
               color='green', ha='left', va='top')
 
-def image(axis, image_path, bottom):
+def image_h_center(axis, image_path, bottom, scale=1):
     image = Image.open(image_path)
-    image_width, image_height = image.width, image.height
+    image_width, image_height = image.width * scale, image.height * scale
     print('Image size', image_width, 'x', image_height)
     left_offset = (WIDTH_4K - image_width) / 2
     axis.imshow(image, extent=[left_offset, left_offset + image_width, bottom, bottom + image_height])
+
+def image_v_center(axis, image_path, left, scale=1):
+    image = Image.open(image_path)
+    image_width, image_height = image.width * scale, image.height * scale
+    print('Image size', image_width, 'x', image_height)
+    bottom_offset = (HEIGHT_4K - image_height) / 2
+    axis.imshow(image, extent=[left, left + image_width, bottom_offset, bottom_offset + image_height])
+
+def image_by_offset(axis, image_path, left, bottom, scale=1):
+    image = Image.open(image_path)
+    image_width, image_height = image.width * scale, image.height * scale
+    print('Image size', image_width, 'x', image_height)
+    axis.imshow(image, extent=[left, left + image_width, bottom, bottom + image_height])
 
 def save(file_path):
     pyplot.savefig(file_path, dpi=DPI, bbox_inches='tight', pad_inches=0, transparent=False)
