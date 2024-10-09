@@ -36,6 +36,13 @@ def code(axis, code, index):
               fontproperties=noto_sans_sc['Light'], fontsize=CONTENT_FONT_SIZE,
               color='green', ha='left', va='top')
 
+def headline(axis, headline, font_properties, fontsize, x_pos = WIDTH_4K / 2, y_pos = HEIGHT_4K / 2):
+    axis.text(x_pos, y_pos,
+              headline,
+              fontproperties=font_properties, fontsize=fontsize,
+              ha='center', va='center',
+              color='black')
+
 def image_h_center(axis, image_path, bottom, scale=1):
     image = Image.open(image_path)
     image_width, image_height = image.width * scale, image.height * scale
@@ -49,6 +56,19 @@ def image_v_center(axis, image_path, left, scale=1):
     print('Image size', image_width, 'x', image_height)
     bottom_offset = (HEIGHT_4K - image_height) / 2
     axis.imshow(image, extent=[left, left + image_width, bottom_offset, bottom_offset + image_height])
+
+def image_2_h_center(axis, image1_path, image2_path, bottom, scale=1):
+    image1 = Image.open(image1_path)
+    image2 = Image.open(image2_path)
+    if image1.width != image2.width or image1.height != image2.height:
+        print('Size image1', image1.width, 'x', image1.height)
+        print('Size image2', image2.width, 'x', image2.height)
+        return
+    image_width, image_height = image1.width * scale, image2.height * scale
+    image1_left_offset = (WIDTH_4K - 2 * image_width) // 3
+    image2_left_offset = image1_left_offset * 2 + image_width
+    axis.imshow(image1, extent=[image1_left_offset, image1_left_offset + image_width, bottom, bottom + image_height])
+    axis.imshow(image2, extent=[image2_left_offset, image2_left_offset + image_width, bottom, bottom + image_height])
 
 def image_by_offset(axis, image_path, left, bottom, scale=1):
     image = Image.open(image_path)
