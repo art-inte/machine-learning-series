@@ -30,6 +30,12 @@ def text(axis, text, index):
               fontproperties=noto_sans_sc['Regular'], fontsize=CONTENT_FONT_SIZE,
               color='black', ha='left', va='top')
 
+def text_h_center(axis, text, bottom, font_size):
+    axis.text(WIDTH_4K / 2, bottom,
+              text,
+              fontproperties=noto_sans_sc['Regular'], fontsize=font_size,
+              color='black', ha='center', va='center')
+
 def code(axis, code, index):
     axis.text(LEFT_OFFSET, HEIGHT_4K - CONTENT_OFFSET - index * (MEDIUM_OFFSET + TINY_OFFSET + CONTENT_FONT_SIZE),
               code,
