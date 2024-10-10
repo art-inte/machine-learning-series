@@ -2,6 +2,14 @@ from config import *
 import draw
 
 if __name__ == '__main__':
+    # cover
+    figure, axis = draw.init()
+    draw.headline(axis, '深度学习基础', x_pos = WIDTH_4K / 4, y_pos=HEIGHT_4K * 2 / 3, font_properties=noto_sans_sc['ExtraBold'], fontsize=LARGE_SIZE + SMALL_SIZE)
+    draw.headline(axis, '适合新手入门的人工智能课程', x_pos=WIDTH_4K / 2, y_pos=HEIGHT_4K / 3, font_properties=noto_sans_sc['Medium'], fontsize=LARGE_SIZE)
+    draw.text_h_center(axis, '@machine_learning_series', bottom=ULTRA_OFFSET, font_size=MEDIUM_SIZE + TINY_SIZE)
+    draw.image_center(axis, 'res/deep_learning/networkx_sample.png', pos_x=WIDTH_4K * 3 / 4, pos_y=HEIGHT_4K * 2 / 3)
+    draw.save('00_00_cover.png')
+
     # image 1
     figure, axis = draw.init()
     draw.headline(axis, '深度学习基础', x_pos = WIDTH_4K / 4, y_pos=HEIGHT_4K * 2 / 3, font_properties=noto_sans_sc['ExtraBold'], fontsize=LARGE_SIZE + SMALL_SIZE)
@@ -52,10 +60,10 @@ if __name__ == '__main__':
     draw.subtitle(axis, '2.《深度学习基础》介绍')
     draw.text(axis, '《深度学习基础》(Fundamentals of Deep Learning) 是机器学习的入门课程，许多教程都是从', index=0)
     draw.text(axis, 'MNIST 数据集开始，对于初学者，特别是数学和编程基础不牢固的读者来说，难度仍然比较大。', index=1)
-    draw.text(axis, '为了充分理解神经网络，比如为什么要引入梯度这些复杂的概念，网络从零维的数字开始讲起，', index=3)
+    draw.text(axis, '(1) 为了充分理解神经网络，比如为什么要引入梯度这些复杂的概念，网络从零维的数字开始讲起，', index=3)
     draw.text(axis, '然后将其拓展到二维的坐标系中，其中的每个过程都能可视化。', index=4)
-    draw.text(axis, '通过介绍 TensorFlow 中张量、自动微分、模型等概念，讲述市场上机器学习主流库的基本要素，', index=6)
+    draw.text(axis, '(2) 通过介绍 TensorFlow 中张量、自动微分、模型等概念，讲述市场上机器学习主流库的基本要素，', index=6)
     draw.text(axis, '充分理解神经网络的基础概念，从而能够轻易地切换到其它机器学习库中。', index=7)
-    draw.text(axis, '分别使用 TensorFlow, NumPy, PyTorch, JAX 实现 MNIST 数据集的训练，掌握这些机器学习库', index=9)
+    draw.text(axis, '(3) 分别使用 TensorFlow, NumPy, PyTorch, JAX 实现 MNIST 数据集的训练，掌握这些机器学习库', index=9)
     draw.text(axis, '的入门知识。最后手写 micrograd 库结尾，为进阶学习做好充分的准备。', index=10)
     draw.save('00_04_deep_learning_introduction.png')

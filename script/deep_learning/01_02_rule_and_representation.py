@@ -25,4 +25,6 @@ if __name__ == '__main__':
     draw.image_h_center(axis, 'res/deep_learning/png_palette.png', bottom=LARGE_OFFSET, scale=1.2)
     draw.save('02_02_png_palette_2.png')
 
+    figure, axis = draw.init()
+    draw.title(axis, '1.2 规则与表示')
     draw.title(axis, '3. 视频如何表示')

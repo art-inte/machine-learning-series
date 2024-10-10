@@ -31,6 +31,9 @@ TITLE_OFFSET = 128
 SUBTITLE_OFFSET = TITLE_OFFSET + TITLE_FONT_SIZE + LARGE_OFFSET
 CONTENT_OFFSET = SUBTITLE_OFFSET + SUBTITLE_FONT_SIZE + LARGE_OFFSET
 
+YOUTUBE_COVER_DEFAULT_WIDTH = 2560
+YOUTUBE_COVER_DEFAULT_HEIGHT = 1440
+
 # google font path
 # Download from url: https://fonts.google.com/noto/specimen/Noto+Sans+SC?lang=zh_Hans
 BASE_FONT_PATH = '/Users/admin/github/machine-learning-series/temp/Noto_Sans_SC/static'
