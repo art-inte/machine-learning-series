@@ -7,7 +7,6 @@ if __name__ == '__main__':
     draw.headline(axis, '深度学习基础', x_pos = WIDTH_4K / 4, y_pos=HEIGHT_4K * 2 / 3, font_properties=noto_sans_sc['ExtraBold'], fontsize=LARGE_SIZE + SMALL_SIZE)
     draw.text_h_center(axis, '@machine_learning_series', bottom=ULTRA_OFFSET, font_size=MEDIUM_SIZE)
     draw.save('00_01_headline.png')
-
     # image 2
     figure, axis = draw.init()
     draw.title(axis, '课程介绍')

@@ -43,6 +43,8 @@ def code(axis, code, index):
               color='green', ha='left', va='top')
 
 def headline(axis, headline, font_properties, fontsize, x_pos = WIDTH_4K / 2, y_pos = HEIGHT_4K / 2):
+    axis.axhline(y=HEIGHT_4K / 2, color='black', linewidth=1)
+    axis.axvline(x=WIDTH_4K / 2, color='black', linewidth=1)
     axis.text(x_pos, y_pos,
               headline,
               fontproperties=font_properties, fontsize=fontsize,
@@ -66,15 +68,14 @@ def image_v_center(axis, image_path, left, scale=1):
 def image_2_h_center(axis, image1_path, image2_path, bottom, scale=1):
     image1 = Image.open(image1_path)
     image2 = Image.open(image2_path)
-    if image1.width != image2.width or image1.height != image2.height:
-        print('Size image1', image1.width, 'x', image1.height)
-        print('Size image2', image2.width, 'x', image2.height)
-        return
-    image_width, image_height = image1.width * scale, image2.height * scale
-    image1_left_offset = (WIDTH_4K - 2 * image_width) // 3
-    image2_left_offset = image1_left_offset * 2 + image_width
-    axis.imshow(image1, extent=[image1_left_offset, image1_left_offset + image_width, bottom, bottom + image_height])
-    axis.imshow(image2, extent=[image2_left_offset, image2_left_offset + image_width, bottom, bottom + image_height])
+    image1_width, image1_height = image1.width * scale, image1.height * scale
+    print('Image size', image1_width, 'x', image1_height)
+    image2_width, image2_height = image1.width * scale, image2.height * scale
+    print('Image size', image2_width, 'x', image2_height)
+    image1_left_offset = (WIDTH_4K - (image1_width + image2_width)) // 3
+    image2_left_offset = image1_left_offset * 2 + image1_width
+    axis.imshow(image1, extent=[image1_left_offset, image1_left_offset + image1_width, bottom, bottom + image1_height])
+    axis.imshow(image2, extent=[image2_left_offset, image2_left_offset + image2_width, bottom, bottom + image2_height])
 
 def image_by_offset(axis, image_path, left, bottom, scale=1):
     image = Image.open(image_path)
