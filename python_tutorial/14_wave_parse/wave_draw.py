@@ -74,8 +74,9 @@ if __name__ == '__main__':
         audio_data = numpy.frombuffer(data, dtype=dtype)[::num_channel]
         time = numpy.linspace(0, len(audio_data) / sample_rate, num = len(audio_data))
         pyplot.figure()
+        pyplot.title('Sound Wave')
         pyplot.plot(time, audio_data)
         pyplot.subplots_adjust(left=0.12, right=0.98, top=0.94, bottom=0.06)
-        pyplot.savefig('temp/wave_draw_2.png', dpi=300)
+        pyplot.savefig('temp/wave_draw_2.png', dpi=300, transparent=True)
         pyplot.show()
         pyplot.close('all')

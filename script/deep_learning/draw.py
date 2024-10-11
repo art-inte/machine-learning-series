@@ -90,4 +90,6 @@ def image_by_offset(axis, image_path, left, bottom, scale=1):
     axis.imshow(image, extent=[left, left + image_width, bottom, bottom + image_height])
 
 def save(file_path):
+    temp_dir = 'temp'
+    file_path = os.path.join(temp_dir, file_path)
     pyplot.savefig(file_path, dpi=DPI, bbox_inches='tight', pad_inches=0, transparent=False)

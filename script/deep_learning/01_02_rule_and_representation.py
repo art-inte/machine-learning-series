@@ -27,4 +27,10 @@ if __name__ == '__main__':
 
     figure, axis = draw.init()
     draw.title(axis, '1.2 规则与表示')
-    draw.title(axis, '3. 视频如何表示')
+    draw.subtitle(axis, '3. 视频如何表示')
+
+    figure, axis = draw.init()
+    draw.title(axis, '1.2 规则与表示')
+    draw.subtitle(axis, '4. 声音如何表示')
+    draw.image_h_center(axis, 'res/deep_learning/wave_draw.png', bottom=LARGE_OFFSET)
+    draw.save('02_02_wave_draw_4.png')
