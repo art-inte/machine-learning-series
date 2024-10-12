@@ -39,22 +39,23 @@ if __name__ == '__main__':
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '1. 为什么要学？')
-    draw.text(axis, 'AlphaFold', index=0)
+    draw.text(axis, '2024 年诺贝尔化学奖一半授予大卫·贝克，以表彰其“计算蛋白质设计”，', index=0)
+    draw.text(axis, '另一半则共同授予德米斯·哈萨比斯和约翰·M·江珀，以表彰其“蛋白质结构预测”。', index=1)
+    draw.text(axis, '大卫·贝克成功完成了几乎不可能完成的壮举，制造出全新种类的蛋白质。', index=3)
+    draw.text(axis, '德米斯·哈萨比斯和约翰·江珀开发了一种人工智能模型 AlphaFold 来解决一个 50 年前的问题：', index=4)
+    draw.text(axis, '预测蛋白质的复杂结构。', index=5)
+    draw.image_2_h_center(axis, 'res/deep_learning/proteins.webp', 'res/deep_learning/chemistry_nobel_2024.webp', bottom=LARGE_OFFSET, scale=1.5)
     draw.save('00_01_why_learn_3.png')
 
     # image 4
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '1. 为什么要学？')
-    draw.text(axis, 'Tesla FSD', index=0)
+    draw.text(axis, 'ChatGPT 是基于 OpenAI 开发的 GPT（Generative Pre-trained Transformer）模型。', index=0)
+    draw.text(axis, '它通过深度学习技术，尤其是 Transformer 架构，能够生成与人类对话类似的自然语言文本。', index=1)
+    draw.text(axis, 'Attention Is All You Need', index=2)
+    draw.image_h_center(axis, 'res/deep_learning/transformer_model_architecture.png', bottom=SMALL_OFFSET, rotate=270)
     draw.save('00_01_why_learn_4.png')
-
-    # image 5
-    figure, axis = draw.init()
-    draw.title(axis, '前言-课程介绍')
-    draw.subtitle(axis, '1. 为什么要学？')
-    draw.text(axis, 'ChatGPT', index=0)
-    draw.save('00_01_why_learn_5.png')
 
     # image 3
     figure, axis = draw.init()

@@ -51,8 +51,9 @@ def headline(axis, headline, font_properties, fontsize, x_pos = WIDTH_4K / 2, y_
               ha='center', va='center',
               color='black')
 
-def image_h_center(axis, image_path, bottom, scale=1):
+def image_h_center(axis, image_path, bottom, scale=1, rotate=0):
     image = Image.open(image_path)
+    image = image.rotate(rotate, expand=True)
     image_width, image_height = image.width * scale, image.height * scale
     print('Image size', image_width, 'x', image_height)
     left_offset = (WIDTH_4K - image_width) / 2
@@ -65,8 +66,9 @@ def image_v_center(axis, image_path, left, scale=1):
     bottom_offset = (HEIGHT_4K - image_height) / 2
     axis.imshow(image, extent=[left, left + image_width, bottom_offset, bottom_offset + image_height])
 
-def image_center(axis, image_path, pos_x, pos_y, scale=1):
+def image_center(axis, image_path, pos_x, pos_y, scale=1, rotate=0):
     image = Image.open(image_path)
+    image = image.rotate(rotate)
     image_width, image_height = image.width * scale, image.height * scale
     print('Image size', image_width, 'x', image_height)
     axis.imshow(image, extent=[pos_x - image_width / 2, pos_x + image_width / 2, pos_y - image_height / 2, pos_y + image_height / 2])

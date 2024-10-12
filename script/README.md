@@ -6,6 +6,9 @@
 
 Github 仓库：https://github.com/art-inte/machine-learning-series  
 Google 文档：https://docs.google.com/document/d/1huh6F19wBMDKIHsYKGmpql6vHhkhpW0wSMnRyAU1la8/edit?usp=sharing
+论文 Attention Is All You Need: https://arxiv.org/abs/1706.03762
+MNIST 数据集: https://yann.lecun.com/exdb/mnist/
+
 
 * [01_01_machine_learning_introduction.py](deep_learning/01_01_machine_learning_introduction.py)
 
