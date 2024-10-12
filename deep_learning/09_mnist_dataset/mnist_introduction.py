@@ -10,18 +10,19 @@ def show_images(images, title_texts):
     """
     cols = 5
     rows = math.ceil(len(images) / cols)
-    pyplot.figure(figsize=(10, 7))
+    pyplot.figure(figsize=(20, 10))
     index = 1
     for x in zip(images, title_texts):
         image = x[0]
         title_text = x[1]
         pyplot.subplot(rows, cols, index)
+        pyplot.tick_params(axis='both', which='major', labelsize=16)
         pyplot.imshow(image)
         if title_text != '':
-            pyplot.title(title_text, fontsize=8)
+            pyplot.title(title_text, fontsize=24)
         index += 1
     pyplot.subplots_adjust(left=0.05, right=0.95, top=0.95, bottom=0.05)
-    pyplot.savefig('temp/mnist_dataset.png', dpi=300)
+    pyplot.savefig('temp/mnist_dataset.png', dpi=100)
     pyplot.show()
 
 if __name__ == '__main__':
@@ -30,15 +31,15 @@ if __name__ == '__main__':
     # Show some random training and test images.
     images_show = []
     titles_show = []
-    for i in range(0, 10):
+    for i in range(0, 5):
         r = random.randint(0, 60000)
         images_show.append(x_train[r])
-        titles_show.append('train image [' + str(r) + '] = ' + str(y_train[r]))
+        titles_show.append('train [' + str(r) + '] = ' + str(y_train[r]))
 
     for i in range(0, 5):
         r = random.randint(0, 10000)
         images_show.append(x_test[r])
-        titles_show.append('test images [' + str(r) + '] = ' + str(y_test[r]))
+        titles_show.append('test [' + str(r) + '] = ' + str(y_test[r]))
 
 
     show_images(images_show, titles_show)
