@@ -85,6 +85,22 @@ def image_2_h_center(axis, image1_path, image2_path, bottom, scale=1, margin_lef
     axis.imshow(image1, extent=[margin_left + image1_left_offset, margin_left + image1_left_offset + image1_width, bottom, bottom + image1_height])
     axis.imshow(image2, extent=[margin_left + image2_left_offset, margin_left + image2_left_offset + image2_width, bottom, bottom + image2_height])
 
+def image_n_h_center(axis, image_path_list, bottom, scale=1):
+    image_count = len(image_path_list)
+    image_width_list = []
+    image_height_list = []
+    image_list = []
+    for image_path in image_path_list:
+        image = Image.open(image_path)
+        image_list.append(image)
+        image_width_list.append(image.width)
+        image_height_list.append(image.height)
+    gap = (WIDTH_4K - sum(image_width_list)) // (image_count + 1)
+    left_offset = gap
+    for index in range(image_count):
+        axis.imshow(image_list[index], extent=[left_offset, left_offset + image_width_list[index], bottom, bottom + image_height_list[index]])
+        left_offset += (gap + image_width_list[index])
+
 def image_by_offset(axis, image_path, left, bottom, scale=1):
     image = Image.open(image_path)
     image_width, image_height = image.width * scale, image.height * scale
