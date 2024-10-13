@@ -2,7 +2,6 @@ from config import *
 import draw
 
 if __name__ == '__main__':
-    # cover
     figure, axis = draw.init()
     draw.headline(axis, '深度学习基础', x_pos = WIDTH_4K / 4, y_pos=HEIGHT_4K * 2 / 3, font_properties=noto_sans_sc['ExtraBold'], fontsize=LARGE_SIZE + SMALL_SIZE)
     draw.headline(axis, '适合新手入门的人工智能课程', x_pos=WIDTH_4K / 2, y_pos=HEIGHT_4K / 3, font_properties=noto_sans_sc['Medium'], fontsize=LARGE_SIZE)
@@ -10,7 +9,6 @@ if __name__ == '__main__':
     draw.image_center(axis, 'res/deep_learning/networkx_sample.png', pos_x=WIDTH_4K * 3 / 4, pos_y=HEIGHT_4K * 2 / 3)
     draw.save('00_00_cover.png')
 
-    # image 1
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '1. 为什么要学？')
@@ -22,7 +20,6 @@ if __name__ == '__main__':
     draw.image_2_h_center(axis, 'res/deep_learning/artificial_neural_network.webp', 'res/deep_learning/physics_nobel_prize_2024.webp', bottom=LARGE_OFFSET, scale=1.5)
     draw.save('00_01_why_learn_1.png')
 
-    # image 2
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '1. 为什么要学？')
@@ -35,7 +32,6 @@ if __name__ == '__main__':
     draw.text(axis, '(7) Midjourney 根据用户的文本描述生成高度创意的艺术作品和视觉图像。', index=13)
     draw.save('00_01_why_learn_2.png')
 
-    # image 3
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '1. 为什么要学？')
@@ -47,7 +43,6 @@ if __name__ == '__main__':
     draw.image_2_h_center(axis, 'res/deep_learning/proteins.webp', 'res/deep_learning/chemistry_nobel_2024.webp', bottom=LARGE_OFFSET, scale=1.5)
     draw.save('00_01_why_learn_3.png')
 
-    # image 4
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '1. 为什么要学？')
@@ -57,7 +52,6 @@ if __name__ == '__main__':
     draw.image_h_center(axis, 'res/deep_learning/transformer_model_architecture.png', bottom=SMALL_OFFSET, rotate=270)
     draw.save('00_01_why_learn_4.png')
 
-    # image 3
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '2. 机器学习系列')
@@ -69,9 +63,20 @@ if __name__ == '__main__':
     draw.text(axis, '(2) 数学：初等数学 、微积分 第 1 卷 、微积分 第 2 卷 、线性代数 、统计学入门', index=6)
     draw.text(axis, '(3) 机器学习：深度学习基础 、PyTorch 详解 、CUDA 编程、机器学习编译器', index=7)
     draw.text(axis, '(4) 前沿：待定', index=8)
-    draw.save('00_02_machine_learning_series.png')
+    draw.save('00_02_machine_learning_series_1.png')
 
-    # image 4
+    figure, axis = draw.init()
+    draw.title(axis, '前言-课程介绍')
+    draw.subtitle(axis, '2. 机器学习系列')
+    draw.text(axis, 'OpenStax (https://openstax.org/subjects/math) 数学教科书：', index=0)
+    draw.text(axis, '(1) Algebra and Trigonometry', index=1)
+    draw.text(axis, '(2) Calculus', index=2)
+    draw.text(axis, '(3) College Algebra', index=3)
+    draw.text(axis, '(4) Precalculus', index=4)
+    draw.text(axis, '(5) Statistics', index=5)
+    draw.image_2_h_center(axis, 'res/deep_learning/precalculus_2e.png', 'res/deep_learning/calculus_volume_1.png', bottom=MEDIUM_OFFSET + LARGE_OFFSET, scale=0.6, margin_left=EXTRA_OFFSET + ULTRA_OFFSET)
+    draw.save('00_02_machine_learning_series_2.png')
+
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '3.《深度学习基础》介绍')
@@ -85,7 +90,6 @@ if __name__ == '__main__':
     draw.text(axis, '的入门知识。最后手写 micrograd 库结尾，为进阶学习做好充分的准备。', index=10)
     draw.save('00_03_deep_learning_introduction_1.png')
 
-    # image 5
     figure, axis = draw.init()
     draw.title(axis, '前言-课程介绍')
     draw.subtitle(axis, '3.《深度学习基础》介绍')
@@ -93,3 +97,9 @@ if __name__ == '__main__':
     draw.text(axis, '美国国家标准技术研究所 (National Institute of Standards and Technology)', index=1)
     draw.image_h_center(axis, 'res/deep_learning/mnist_dataset.png', bottom=MEDIUM_OFFSET, scale=1.5)
     draw.save('00_03_deep_learning_introduction_2.png')
+
+    figure, axis = draw.init()
+    draw.title(axis, '前言-课程介绍')
+    draw.subtitle(axis, '3.《深度学习基础》介绍')
+    draw.image_h_center(axis, 'res/deep_learning/icon_tensorflow.png', bottom=LARGE_OFFSET, scale=0.5)
+    draw.save('00_03_deep_learning_introduction_3.png')

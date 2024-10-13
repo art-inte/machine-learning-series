@@ -73,17 +73,17 @@ def image_center(axis, image_path, pos_x, pos_y, scale=1, rotate=0):
     print('Image size', image_width, 'x', image_height)
     axis.imshow(image, extent=[pos_x - image_width / 2, pos_x + image_width / 2, pos_y - image_height / 2, pos_y + image_height / 2])
 
-def image_2_h_center(axis, image1_path, image2_path, bottom, scale=1):
+def image_2_h_center(axis, image1_path, image2_path, bottom, scale=1, margin_left=0):
     image1 = Image.open(image1_path)
     image2 = Image.open(image2_path)
     image1_width, image1_height = image1.width * scale, image1.height * scale
     print('Image size', image1_width, 'x', image1_height)
     image2_width, image2_height = image1.width * scale, image2.height * scale
     print('Image size', image2_width, 'x', image2_height)
-    image1_left_offset = (WIDTH_4K - (image1_width + image2_width)) // 3
+    image1_left_offset = (WIDTH_4K - margin_left - (image1_width + image2_width)) // 3
     image2_left_offset = image1_left_offset * 2 + image1_width
-    axis.imshow(image1, extent=[image1_left_offset, image1_left_offset + image1_width, bottom, bottom + image1_height])
-    axis.imshow(image2, extent=[image2_left_offset, image2_left_offset + image2_width, bottom, bottom + image2_height])
+    axis.imshow(image1, extent=[margin_left + image1_left_offset, margin_left + image1_left_offset + image1_width, bottom, bottom + image1_height])
+    axis.imshow(image2, extent=[margin_left + image2_left_offset, margin_left + image2_left_offset + image2_width, bottom, bottom + image2_height])
 
 def image_by_offset(axis, image_path, left, bottom, scale=1):
     image = Image.open(image_path)
