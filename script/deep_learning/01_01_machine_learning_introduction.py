@@ -42,10 +42,11 @@ if __name__ == '__main__':
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '4. 什么是机器学习')
-    draw.text(axis, '机器学习是人工智能的子领域，通过观察数据对模型进行训练，从而能够做出决策。', index=0)
-    draw.text(axis, '这个领域已经爆发式增长，现在几乎是 AI 的代名词。', index=1)
-    draw.text(axis, '深度学习 (Deep Learning) 是机器学习的一个分支。', index=2)
-    draw.image_by_offset(axis, 'res/deep_learning/ai_ml_dp.drawio.png', left = LEFT_OFFSET * 12, bottom=LARGE_OFFSET * 2, scale=0.8)
+    draw.text(axis, '人工智能 (Artificial Intelligence) 是构建模拟智能行为的系统，有很多种实现，包括基于逻辑、搜索、概率等方法。', index=0)
+    draw.text(axis, '机器学习是人工智能的子领域，通过观察数据对模型进行训练，从而能够做出决策。', index=2)
+    draw.text(axis, '这个领域已经爆发式增长，现在几乎是 AI 的代名词。', index=3)
+    draw.text(axis, '深度学习 (Deep Learning) 是机器学习的一个分支。', index=5)
+    draw.image_by_offset(axis, 'res/deep_learning/ai_ml_dp.drawio.png', left = LEFT_OFFSET * 13, bottom=MEDIUM_OFFSET, scale=0.8)
     draw.save('01_04_what_is_machine_learning_1.png')
 
     # image 5
@@ -63,3 +64,8 @@ if __name__ == '__main__':
     draw.text(axis, '学习输入数据有用的表示 (Representation) ，这种表示可以更接近得到期望输出。', index=9)
     draw.text(axis, '在后续的深度学习课程中，将清晰地看到数据转换的过程，以及如何通过测量来调节模型。', index=11)
     draw.save('01_04_what_is_machine_learning_2.png')
+
+    figure, axis = draw.init()
+    draw.title(axis, '1.1 从数据中学习规则')
+    draw.subtitle(axis, '5. 测量手段')
+    draw.save('01_05_measure.png')

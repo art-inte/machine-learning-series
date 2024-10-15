@@ -30,8 +30,8 @@ def text(axis, text, index):
               fontproperties=noto_sans_sc['Regular'], fontsize=CONTENT_FONT_SIZE,
               color='black', ha='left', va='top')
 
-def text_h_center(axis, text, bottom, font_size):
-    axis.text(WIDTH_4K / 2, bottom,
+def text_h_center(axis, text, bottom, font_size, margin_left=0):
+    axis.text(WIDTH_4K / 2 + margin_left, bottom,
               text,
               fontproperties=noto_sans_sc['Regular'], fontsize=font_size,
               color='black', ha='center', va='center')
