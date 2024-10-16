@@ -2,7 +2,6 @@ from config import *
 import draw
 
 if __name__ == '__main__':
-    # image 1
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '1. 传统编程')
@@ -20,7 +19,6 @@ if __name__ == '__main__':
     draw.image_v_center(axis, 'res/deep_learning/flower_tatarian_aster.jpg', left=LARGE_OFFSET * 23, scale=1.5)
     draw.save('01_01_classical_programming.png')
 
-    # image 2
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '2. 机器学习')
@@ -28,7 +26,6 @@ if __name__ == '__main__':
     draw.image_h_center(axis, 'res/deep_learning/machine_learning_paradigm.drawio.png', bottom=LARGE_OFFSET * 4)
     draw.save('01_02_machine_learning_paradigm.png')
 
-    # image 3
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '3. 查看数据集')
@@ -38,7 +35,6 @@ if __name__ == '__main__':
     draw.image_h_center(axis, 'res/deep_learning/flower_dataset.jpg', bottom=LARGE_OFFSET * 2, scale=2)
     draw.save('01_03_flower_dataset.png')
 
-    # image 4
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '4. 什么是机器学习')
@@ -49,7 +45,6 @@ if __name__ == '__main__':
     draw.image_by_offset(axis, 'res/deep_learning/ai_ml_dp.drawio.png', left = LEFT_OFFSET * 13, bottom=MEDIUM_OFFSET, scale=0.8)
     draw.save('01_04_what_is_machine_learning_1.png')
 
-    # image 5
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '4. 什么是机器学习')
@@ -73,13 +68,23 @@ if __name__ == '__main__':
     draw.text(axis, '测量的结果将作为反馈信号去调整算法的工作，这个调整步骤通常称之为学习 (Learning)。', index=1)
     draw.save('01_04_what_is_machine_learning_4.png')
 
+    # ref: https://aws.amazon.com/cn/what-is/machine-learning/
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
-    draw.subtitle(axis, "4. 什么是机器学习")
+    draw.subtitle(axis, "5. 机器学习原理")
     draw.text(axis, '机器学习的核心问题就是有用的数据转换 (Data Transform)：', index=0)
     draw.text(axis, '学习输入数据有用的表示 (Representation) ，这种表示可以更接近得到期望输出。', index=1)
-    draw.save('01_04_what_is_machine_learning_5.png')
+    draw.text(axis, '为算法提供了以下输入/输出 (i,o) 组合来“训练”算法 – (2,10)、(5,19) 和 (9,31)', index=2)
+    draw.text(axis, '算法计算出输入和输出之间的关系为：o=3*i+4', index=3)
+    draw.text(axis, '为算法提供输入 7，并要求算法预测输出。算法会自动确定输出为 25', index=4)
+    draw.save('01_05_what_is_machine_learning_5.png')
 
-    # https://aws.amazon.com/cn/what-is/machine-learning/
-    draw.subtitle(axis, "工作原理")
-    
+    figure, axis = draw.init()
+    draw.title(axis, '1.1 从数据中学习规则')
+    draw.subtitle(axis, "机器学习类型")
+    draw.save('01_06.png')
+
+    figure, axis = draw.init()
+    draw.title(axis, '1.1 从数据中学习规则')
+    draw.subtitle(axis, '机器学习优缺点')
+    draw.save('01_07.png')
