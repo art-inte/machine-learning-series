@@ -51,7 +51,7 @@ def headline(axis, headline, font_properties, fontsize, x_pos = WIDTH_4K / 2, y_
               ha='center', va='center',
               color='black')
 
-def image_h_center(axis, image_path, bottom, scale=1, rotate=0):
+def image_h_center(axis, image_path, bottom, scale=1.0, rotate=0):
     image = Image.open(image_path)
     image = image.rotate(rotate, expand=True)
     image_width, image_height = image.width * scale, image.height * scale
@@ -85,7 +85,7 @@ def image_2_h_center(axis, image1_path, image2_path, bottom, scale=1, margin_lef
     axis.imshow(image1, extent=[margin_left + image1_left_offset, margin_left + image1_left_offset + image1_width, bottom, bottom + image1_height])
     axis.imshow(image2, extent=[margin_left + image2_left_offset, margin_left + image2_left_offset + image2_width, bottom, bottom + image2_height])
 
-def image_n_h_center(axis, image_path_list, bottom, scale=1):
+def image_n_h_center(axis, image_path_list, bottom, scale=1.0):
     image_count = len(image_path_list)
     image_width_list = []
     image_height_list = []
@@ -101,7 +101,7 @@ def image_n_h_center(axis, image_path_list, bottom, scale=1):
         axis.imshow(image_list[index], extent=[left_offset, left_offset + image_width_list[index], bottom, bottom + image_height_list[index]])
         left_offset += (gap + image_width_list[index])
 
-def image_by_offset(axis, image_path, left, bottom, scale=1):
+def image_by_offset(axis, image_path, left, bottom, scale=1.0):
     image = Image.open(image_path)
     image_width, image_height = image.width * scale, image.height * scale
     print('Image size', image_width, 'x', image_height)

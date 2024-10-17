@@ -59,6 +59,7 @@ if __name__ == '__main__':
     draw.text(axis, '(2) 数学：基础数学、微积分、线性代数、概率论、统计学等。', index=1)
     draw.text(axis, '(3) 机器学习：从理论到实践，拆解每个过程，熟练使用主流的机器学习库。', index=2)
     draw.text(axis, '(4) 前沿：探索最新的人工智能技术，包括底层原理实现。', index=3)
+    draw.text(axis, 'Github 仓库 (https://github.com/artinte/machine-learning-series)', index=4)
     draw.text_h_center(axis, 'deep_learning/01_introduction/draw_molecules.py', bottom=EXTRA_OFFSET, font_size=CONTENT_FONT_SIZE, margin_left=ULTRA_OFFSET)
     draw.image_h_center(axis, 'res/deep_learning/molecules_c6h12.png', bottom=LARGE_OFFSET, scale=1.2)
     draw.save('00_02_machine_learning_series_1.png')

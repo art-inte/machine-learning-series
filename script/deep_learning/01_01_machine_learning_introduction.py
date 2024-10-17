@@ -41,7 +41,8 @@ if __name__ == '__main__':
     draw.text(axis, '人工智能 (Artificial Intelligence) 是构建模拟智能行为的系统，有很多种实现，包括基于逻辑、搜索、概率等方法。', index=0)
     draw.text(axis, '机器学习是人工智能的子领域，通过观察数据对模型进行训练，从而能够做出决策。', index=2)
     draw.text(axis, '这个领域已经爆发式增长，现在几乎是 AI 的代名词。', index=3)
-    draw.text(axis, '深度学习 (Deep Learning) 是机器学习的一个分支。', index=5)
+    draw.text(axis, '深度学习 (Deep Learning) 是机器学习的一个分支，', index=5)
+    draw.text(axis, '是一种以人工神经网络 (Artificial Neural Network) 为架构，对数据进行学习的算法。', index=6)
     draw.image_by_offset(axis, 'res/deep_learning/ai_ml_dp.drawio.png', left = LEFT_OFFSET * 13, bottom=MEDIUM_OFFSET, scale=0.8)
     draw.save('01_04_what_is_machine_learning_1.png')
 
