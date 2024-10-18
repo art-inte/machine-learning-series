@@ -42,7 +42,8 @@ if __name__ == '__main__':
     draw.text(axis, '机器学习是人工智能的子领域，通过观察数据对模型进行训练，从而能够做出决策。', index=2)
     draw.text(axis, '这个领域已经爆发式增长，现在几乎是 AI 的代名词。', index=3)
     draw.text(axis, '深度学习 (Deep Learning) 是机器学习的一个分支，', index=5)
-    draw.text(axis, '是一种以人工神经网络 (Artificial Neural Network) 为架构，对数据进行学习的算法。', index=6)
+    draw.text(axis, '是一种以人工神经网络 (Artificial Neural Network) ', index=6)
+    draw.text(axis, '为架构，对数据进行学习的算法。', index=7)
     draw.image_by_offset(axis, 'res/deep_learning/ai_ml_dp.drawio.png', left = LEFT_OFFSET * 13, bottom=MEDIUM_OFFSET, scale=0.8)
     draw.save('01_04_what_is_machine_learning_1.png')
 
@@ -53,7 +54,7 @@ if __name__ == '__main__':
     draw.text(axis, "输入数据、期望输出、测量算法好坏的手段", index=1)
     draw.text(axis, '(1) 输入数据 (Input Data)：比如语音识别任务，数据可以是人们说话的声音文件；', index=3)
     draw.text(axis, '图像打标签任务，输入就是图片和对应的标签。', index=4)
-    draw.image_h_center(axis, 'res/deep_learning/cifar10.png', bottom=LARGE_OFFSET, scale=2.0)
+    draw.image_h_center(axis, 'res/deep_learning/cifar10.png', bottom=SMALL_OFFSET, scale=2.0)
     draw.save('01_04_what_is_machine_learning_2.png')
 
     figure, axis = draw.init()
@@ -61,6 +62,9 @@ if __name__ == '__main__':
     draw.subtitle(axis, '4. 什么是机器学习')
     draw.text(axis, '(2) 期望输出 (Expected Output)：在语音识别任务中，输出可以是识别的文本；', index=0)
     draw.text(axis, '在图像识别任务中，输出可以是猫、狗、花等标签。', index=1)
+    draw.text(axis, '输入文字描述，输出用户想要的图片。', index=3)
+    draw.text(axis, 'ChatGPT 中输入：Create an image of cat , 16:9', index=4)
+    draw.image_h_center(axis, 'res/deep_learning/cat_gen.webp', bottom=LARGE_OFFSET)
     draw.save('01_04_what_is_machine_learning_3.png')
 
     figure, axis = draw.init()
