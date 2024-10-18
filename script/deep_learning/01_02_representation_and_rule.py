@@ -28,6 +28,7 @@ if __name__ == '__main__':
     figure, axis = draw.init()
     draw.title(axis, '1.2 表示与规则')
     draw.subtitle(axis, '3. 视频如何表示')
+    draw.save('02_02_video_3.png')
 
     figure, axis = draw.init()
     draw.title(axis, '1.2 表示与规则')

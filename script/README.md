@@ -23,13 +23,15 @@ MNIST 数据集： https://yann.lecun.com/exdb/mnist/
 
 视频主要介绍什么是机器学习，主要包含输入、输出、规则三个部分。
 
-PNG 图片协议：https://www.w3.org/TR/2003/REC-PNG-20031110/  
+CIFAR-10 数据集：https://www.cs.toronto.edu/~kriz/cifar.html  
 什么是机器学习：https://aws.amazon.com/cn/what-is/machine-learning/  
-
 
 * [01_02_representation_and_rule.py](deep_learning/01_02_representation_and_rule.py)
 
 标题：深度学习中的数据表示（文本、图片、视频、语音）
+
+Unicode 字符：https://home.unicode.org/  
+PNG 图片协议：https://www.w3.org/TR/2003/REC-PNG-20031110/  
 
 * [01_03_what_is_deep_learning.py](deep_learning/01_03_what_is_deep_learning.py)
 

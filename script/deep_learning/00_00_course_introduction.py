@@ -5,7 +5,7 @@ if __name__ == '__main__':
     figure, axis = draw.init()
     draw.headline(axis, '深度学习基础', x_pos = WIDTH_4K / 4, y_pos=HEIGHT_4K * 2 / 3, font_properties=noto_sans_sc['ExtraBold'], fontsize=LARGE_SIZE + SMALL_SIZE)
     draw.headline(axis, '适合新手入门的人工智能课程', x_pos=WIDTH_4K / 2, y_pos=HEIGHT_4K / 3, font_properties=noto_sans_sc['Medium'], fontsize=LARGE_SIZE)
-    draw.text_h_center(axis, '@machine_learning_series', bottom=ULTRA_OFFSET, font_size=MEDIUM_SIZE + TINY_SIZE)
+    draw.text_h_center(axis, '@machine-learning-series', bottom=ULTRA_OFFSET, font_size=MEDIUM_SIZE + TINY_SIZE)
     draw.image_center(axis, 'res/deep_learning/networkx_sample.png', pos_x=WIDTH_4K * 3 / 4, pos_y=HEIGHT_4K * 2 / 3)
     draw.save('00_00_cover.png')
 

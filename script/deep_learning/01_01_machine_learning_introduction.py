@@ -59,6 +59,7 @@ if __name__ == '__main__':
     draw.text(axis, "输入数据、期望输出、测量算法好坏的手段", index=1)
     draw.text(axis, '(1) 输入数据 (Input Data)：比如语音识别任务，数据可以是人们说话的声音文件；', index=3)
     draw.text(axis, '图像打标签任务，输入就是图片和对应的标签。', index=4)
+    draw.text(axis, 'CIFAR-10 数据集', index=6)
     draw.image_h_center(axis, 'res/deep_learning/cifar10.png', bottom=SMALL_OFFSET, scale=2.0)
     draw.save('01_04_what_is_machine_learning_2.png')
 
