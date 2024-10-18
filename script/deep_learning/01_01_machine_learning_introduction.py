@@ -3,6 +3,11 @@ import draw
 
 if __name__ == '__main__':
     figure, axis = draw.init()
+    draw.headline(axis, '机器学习：从数据中学习规则', x_pos = WIDTH_4K / 2, y_pos=HEIGHT_4K * 3 / 4, font_properties=noto_sans_sc['ExtraBold'], fontsize=LARGE_SIZE + SMALL_SIZE)
+    draw.image_center(axis, 'res/deep_learning/feedback_machine_learning.drawio.png', pos_x=WIDTH_4K / 2, pos_y=HEIGHT_4K * 3 / 8)
+    draw.save('01_00_cover.png')
+
+    figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '1. 传统编程')
     draw.text(axis, '传统编程三要素：规则 (Rule)、数据 (Data)、答案 (Answer)', index=0)
@@ -73,7 +78,7 @@ if __name__ == '__main__':
     draw.text(axis, '(3) 测量算法好坏的手段 (Measure)：计算系统当前的输出和期望输出的距离，测量手段是非常有必要的。', index=0)
     draw.text(axis, '测量的结果将作为反馈信号去调整算法的工作，这个调整步骤通常称之为学习 (Learning)。', index=1)
     draw.text(axis, '训练与预测', index=3)
-    draw.image_h_center(axis, 'res/deep_learning/feedback_machine_learning.drawio.png', bottom=LARGE_OFFSET)
+    draw.image_h_center(axis, 'res/deep_learning/feedback_machine_learning.drawio.png', bottom=EXTRA_OFFSET)
     draw.save('01_04_what_is_machine_learning_4.png')
 
     # ref: https://aws.amazon.com/cn/what-is/machine-learning/
@@ -92,9 +97,26 @@ if __name__ == '__main__':
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, "机器学习类型")
+    draw.text(axis, '(1) 有监督机器学习', index=0)
+    draw.text(axis, '有监督学习必需使用标注后的训练数据。例如，数百万张苹果和香蕉图片需要贴上“苹果”或“香蕉”的标签。', index=1)
+    draw.text(axis, '(2) 无监督机器学习', index=3)
+    draw.text(axis, '无监督学习算法会使用未标注的数据进行训练。', index=4)
+    draw.text(axis, '(3) 半监督学习', index=6)
+    draw.text(axis, '使用少量已标注数据和大量未标注数据来训练系统。', index=7)
+    draw.text(axis, '(4) 强化机器学习', index=9)
+    draw.text(axis, '强化学习是在算法必经的多个阶段附加奖励值的方法。', index=10)
     draw.save('01_06_type_of_machine_learning.png')
 
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '机器学习优缺点')
-    draw.save('01_07_.png')
+    draw.text(axis, '机器学习模型的优点：', index=0)
+    draw.text(axis, '(1) 可以识别人类可能遗漏的数据趋势和模式。', index=1)
+    draw.text(axis, '(2) 设置后无需人工干预即可运作。', index=2)
+    draw.text(axis, '(3) 结果会随着时间推移越来越准确。', index=3)
+    draw.text(axis, '(4) 可以在动态、大容量和复杂的数据环境中处理各种数据格式。', index=4)
+    draw.text(axis, '机器学习模型的缺点：', index=6)
+    draw.text(axis, '(1) 初始训练成本较高且非常耗时。如果没有充足的数据，可能难以运作。', index=7)
+    draw.text(axis, '(2) 如果在内部设置硬件，则机器学习是一种需要大量初始投资的计算密集型流程。', index=8)
+    draw.text(axis, '(3) 在没有专家帮助的情况下，可能很难正确解释结果并消除不确定性。 ', index=9)
+    draw.save('01_07_pros_and_cons.png')
