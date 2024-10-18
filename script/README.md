@@ -23,7 +23,9 @@ MNIST 数据集： https://yann.lecun.com/exdb/mnist/
 
 视频主要介绍什么是机器学习，主要包含输入、输出、规则三个部分。
 
-PNG 图片协议：https://www.w3.org/TR/2003/REC-PNG-20031110/
+PNG 图片协议：https://www.w3.org/TR/2003/REC-PNG-20031110/  
+什么是机器学习：https://aws.amazon.com/cn/what-is/machine-learning/  
+
 
 * [01_02_representation_and_rule.py](deep_learning/01_02_representation_and_rule.py)
 

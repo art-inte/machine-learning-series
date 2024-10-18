@@ -72,6 +72,8 @@ if __name__ == '__main__':
     draw.subtitle(axis, "4. 什么是机器学习")
     draw.text(axis, '(3) 测量算法好坏的手段 (Measure)：计算系统当前的输出和期望输出的距离，测量手段是非常有必要的。', index=0)
     draw.text(axis, '测量的结果将作为反馈信号去调整算法的工作，这个调整步骤通常称之为学习 (Learning)。', index=1)
+    draw.text(axis, '训练与预测', index=3)
+    draw.image_h_center(axis, 'res/deep_learning/feedback_machine_learning.drawio.png', bottom=LARGE_OFFSET)
     draw.save('01_04_what_is_machine_learning_4.png')
 
     # ref: https://aws.amazon.com/cn/what-is/machine-learning/
@@ -82,15 +84,17 @@ if __name__ == '__main__':
     draw.text(axis, '学习输入数据有用的表示 (Representation) ，这种表示可以更接近得到期望输出。', index=1)
     draw.text(axis, '为算法提供了以下输入/输出 (i,o) 组合来“训练”算法 – (2,10)、(5,19) 和 (9,31)', index=2)
     draw.text(axis, '算法计算出输入和输出之间的关系为：o=3*i+4', index=3)
-    draw.text(axis, '为算法提供输入 7，并要求算法预测输出。算法会自动确定输出为 25', index=4)
+    draw.text(axis, '为算法提供输入 7，并要求算法预测输出。', index=4)
+    draw.text(axis, '算法会自动确定输出为 25', index=5)
+    draw.image_h_center(axis, 'res/deep_learning/linear_function.png', bottom=MEDIUM_OFFSET, scale=0.8)
     draw.save('01_05_what_is_machine_learning_5.png')
 
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, "机器学习类型")
-    draw.save('01_06.png')
+    draw.save('01_06_type_of_machine_learning.png')
 
     figure, axis = draw.init()
     draw.title(axis, '1.1 从数据中学习规则')
     draw.subtitle(axis, '机器学习优缺点')
-    draw.save('01_07.png')
+    draw.save('01_07_.png')
